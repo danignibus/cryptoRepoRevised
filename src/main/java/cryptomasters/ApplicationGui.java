@@ -92,6 +92,7 @@ public class ApplicationGui extends javax.swing.JFrame {
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
         System.out.println("Upload selected");
+        HttpsSendUpload.main(new String[0]);
         
     }                                            
 
