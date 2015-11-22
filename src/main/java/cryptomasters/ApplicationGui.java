@@ -5,6 +5,8 @@
  */
 package cryptomasters;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.SecretKey;
 
 /**
@@ -40,7 +42,11 @@ public class ApplicationGui extends javax.swing.JFrame {
         uploadButton.setText("Upload");
         uploadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uploadButtonActionPerformed(evt);
+                try {
+                    uploadButtonActionPerformed(evt);
+                } catch (Exception ex) {
+                    Logger.getLogger(ApplicationGui.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -91,11 +97,18 @@ public class ApplicationGui extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) throws Exception {                                             
         // TODO add your handling code here:
         System.out.println("Upload selected");
-        ManageSecretKey manageKey = new ManageSecretKey();
-        SecretKey key = manageKey.makeKey();
+
+//        String password = "kev";
+//        String[] args = new String[1];
+//        args[0] = password;
+//        ManageSecretKey manageKey = new ManageSecretKey();
+//        SecretKey key = manageKey.makeKey();
+//        manageKey.storeKey(key, password);
+
+        HttpsSendUpload.main(new String[0]);
         
     }                                            
 

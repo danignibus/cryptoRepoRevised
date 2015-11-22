@@ -1,3 +1,5 @@
+package cryptomasters;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,18 +28,12 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 public class ManageSecretKey {
-   
-//    public ManageSecretKey(String password){
-//        
-//    }
-//    
+
     public static void main(String[] args) throws Exception {
         String password = args[0];
         
         SecretKey key = makeKey();
-        storeKey(key, password);
-        
-        
+        storeKey(key, password);  
     }
     /**
      * 
@@ -60,8 +56,8 @@ public class ManageSecretKey {
      *  
      */
     public static void storeKey(SecretKey secKey, String password) throws Exception{
-        final String keyStoreFile = "/Users/kdonahoe/Desktop/KeyStore_File";
-        KeyStore keyStore = createKeyStore(keyStoreFile);
+        final String keyStoreFile = "/Users/kdonahoe/Desktop/KeyStore_File/passwords1.txt";
+        KeyStore keyStore = createKeyStore(keyStoreFile, password);
         
         KeyStore.SecretKeyEntry ksEntry = new KeyStore.SecretKeyEntry(secKey);
         //additional level of security (other than just password) to storing the secret key
@@ -78,16 +74,16 @@ public class ManageSecretKey {
      *
      */
     
-    private static KeyStore createKeyStore(String fileName) throws Exception{
+    private static KeyStore createKeyStore(String fileName, String password) throws Exception{
         File f = new File(fileName);
         final KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
         
         if(f.exists()){
-            ks.load((KeyStore.LoadStoreParameter) new FileInputStream(f));
+            ks.load(new FileInputStream(f), password.toCharArray());
         }
         else{
             ks.load(null, null);
-            ks.store((KeyStore.LoadStoreParameter) new FileOutputStream(f));
+            ks.store(new FileOutputStream(f), password.toCharArray());
         }
         return ks;
     }
@@ -102,6 +98,7 @@ public class ManageSecretKey {
         System.out.println("Retrieved Key: " + key.toString());
         return key;
     }
+
 }
   
     
