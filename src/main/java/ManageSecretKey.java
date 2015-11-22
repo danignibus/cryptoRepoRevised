@@ -25,54 +25,32 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-public class FileEncryption {
-    Cipher AESCipher;
-    byte[] AESKey;
-    SecretKeySpec AESkeySpec;
-    /**
-     * Constructor: creates the AES cipher
-     * @throws NoSuchAlgorithmException 
-     */
-    
-    public FileEncryption() throws NoSuchAlgorithmException, NoSuchPaddingException{
-        AESCipher = Cipher.getInstance("AES");
+public class ManageSecretKey {
+   
+//    public ManageSecretKey(String password){
+//        
+//    }
+//    
+    public static void main(String[] args) throws Exception {
+        String password = args[0];
+        
+        SecretKey key = makeKey();
+        storeKey(key, password);
+        
+        
     }
-
     /**
      * 
      * Generates a fresh secret key, and stores it into a Key File.
      * 
      * @throws NoSuchAlgorithmException 
      */
-    public void makeKey(String password) throws NoSuchAlgorithmException, Exception{
+    public static SecretKey makeKey() throws NoSuchAlgorithmException, Exception{
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
         keyGen.init(256);
         SecretKey secKey = keyGen.generateKey();
-        AESkeySpec = new SecretKeySpec(secKey.getEncoded(), "AES");
-        
         System.out.println("Generated Key: " + secKey.toString());
-
-        storeKey(secKey, password);
-    }
-    
-    /**
-     * Creates a KeyStore, which is a storage device to store cryptographic keys and certificates,
-     * and stores it into the key file. The password authenticates management of the KeyStore.
-     *
-     */
-    
-    private static KeyStore createKeyStore(String fileName, String password) throws Exception{
-        File f = new File(fileName);
-        final KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-        
-        if(f.exists()){
-            ks.load(new FileInputStream(f), password.toCharArray());
-        }
-        else{
-            ks.load(null, null);
-            ks.store(new FileOutputStream(f), password.toCharArray());
-        }
-        return ks;
+        return secKey;
     }
     
     /**
@@ -81,9 +59,9 @@ public class FileEncryption {
      * Then stores the key into the KeyStore, with extra password protection. 
      *  
      */
-    public void storeKey(SecretKey secKey, String password) throws Exception{
+    public static void storeKey(SecretKey secKey, String password) throws Exception{
         final String keyStoreFile = "/Users/kdonahoe/Desktop/KeyStore_File";
-        KeyStore keyStore = createKeyStore(keyStoreFile, password);
+        KeyStore keyStore = createKeyStore(keyStoreFile);
         
         KeyStore.SecretKeyEntry ksEntry = new KeyStore.SecretKeyEntry(secKey);
         //additional level of security (other than just password) to storing the secret key
@@ -94,9 +72,30 @@ public class FileEncryption {
         keyStore.store(new FileOutputStream(keyStoreFile), password.toCharArray());
     }
     
-    public SecretKey retrieveKey(KeyStore keyStore, String password) throws NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException{
-        String pwdSecret = "pw-secret";
-        PasswordProtection keyPassword = new PasswordProtection(pwdSecret.toCharArray());
+     /**
+     * Creates a KeyStore, which is a storage device for cryptographic keys and certificates,
+     * and stores it into the key file. The password authenticates management of the KeyStore.
+     *
+     */
+    
+    private static KeyStore createKeyStore(String fileName) throws Exception{
+        File f = new File(fileName);
+        final KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+        
+        if(f.exists()){
+            ks.load((KeyStore.LoadStoreParameter) new FileInputStream(f));
+        }
+        else{
+            ks.load(null, null);
+            ks.store((KeyStore.LoadStoreParameter) new FileOutputStream(f));
+        }
+        return ks;
+    }
+    
+    
+    public static SecretKey retrieveKey(KeyStore keyStore, String password) throws NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException{
+//        String pwdSecret = "pw-secret";
+        PasswordProtection keyPassword = new PasswordProtection(password.toCharArray());
         
         KeyStore.Entry entry = keyStore.getEntry("kevSecretKey", keyPassword);
         SecretKey key = ((KeyStore.SecretKeyEntry) entry).getSecretKey();

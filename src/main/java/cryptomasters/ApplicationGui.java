@@ -5,6 +5,8 @@
  */
 package cryptomasters;
 
+import javax.crypto.SecretKey;
+
 /**
  *
  * @author danignibus
@@ -92,6 +94,8 @@ public class ApplicationGui extends javax.swing.JFrame {
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
         System.out.println("Upload selected");
+        ManageSecretKey manageKey = new ManageSecretKey();
+        SecretKey key = manageKey.makeKey();
         
     }                                            
 
