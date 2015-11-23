@@ -73,6 +73,7 @@ public class PickUploadFile extends javax.swing.JFrame {
           uploadFileName = selectedFile.getName();
           System.out.println(selectedFile);
           this.setVisible(false);
+          
         }
         else if (command.equals(javax.swing.JFileChooser.CANCEL_SELECTION)) {
           System.out.println("User canceled!");
