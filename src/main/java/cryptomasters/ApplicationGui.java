@@ -5,6 +5,8 @@
  */
 package cryptomasters;
 
+
+
 /**
  *
  * @author danignibus
@@ -92,8 +94,11 @@ public class ApplicationGui extends javax.swing.JFrame {
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
         System.out.println("Upload selected");
+        PickUploadFile filePicker=new PickUploadFile();
+        filePicker.setVisible(true);
+        this.setVisible(false);
       //  String [] args = new String ["hello", "hello", "hello", "hello", "]
-        HttpsSendUpload.main("hello", "hello", "hello1", "cryptocook.png", "/Users/danignibus/Desktop/cryptocook.png");
+        //HttpsSendUpload.main("hello", "hello", "hello1", "cryptocook.png", "/Users/danignibus/Desktop/cryptocook.png");
         
     }                                            
 
