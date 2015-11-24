@@ -11,12 +11,12 @@ import java.io.IOException;
  *
  * @author danignibus
  */
-public class PickUploadFile extends javax.swing.JFrame {
+public class PickUploadFileGUI extends javax.swing.JFrame {
     public static String uploadFileName;
     /**
      * Creates new form PickUploadFile
      */
-    public PickUploadFile() {
+    public PickUploadFileGUI() {
         initComponents();
     }
 
@@ -98,20 +98,21 @@ public class PickUploadFile extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PickUploadFile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PickUploadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PickUploadFile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PickUploadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PickUploadFile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PickUploadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PickUploadFile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PickUploadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PickUploadFile().setVisible(true);
+                new PickUploadFileGUI().setVisible(true);
             }
         });
     }
