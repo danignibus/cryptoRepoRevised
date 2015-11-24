@@ -85,6 +85,7 @@
         <Property name="text" type="java.lang.String" value="Enter your account name here..."/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="groupNameTextFieldMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="groupNameTextFieldActionPerformed"/>
       </Events>
     </Component>
@@ -92,6 +93,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Enter your group key here..."/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="groupKeyTextFieldMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="submitButton">
       <Properties>

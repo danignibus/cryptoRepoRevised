@@ -10,11 +10,13 @@ package cryptomasters;
  * @author danignibus
  */
 public class UploadDownloadGUI extends javax.swing.JFrame {
-
+    public static RequestData request;
     /**
      * Creates new form UploadDownloadGUI
+     * @param request
      */
-    public UploadDownloadGUI() {
+    public UploadDownloadGUI(RequestData request) {
+        UploadDownloadGUI.request = request;
         initComponents();
     }
 
@@ -87,8 +89,8 @@ public class UploadDownloadGUI extends javax.swing.JFrame {
 
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
         System.out.println("Upload selected");
-
-        PickUploadFileGUI filePicker=new PickUploadFileGUI();
+        System.out.println("CHECK DIS ISH:" + request.getUserCredentials());
+        PickUploadFileGUI filePicker=new PickUploadFileGUI(request);
         filePicker.setVisible(true);
         this.setVisible(false);
       //  String [] args = new String ["hello", "hello", "hello", "hello", "]
@@ -135,7 +137,7 @@ public class UploadDownloadGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UploadDownloadGUI().setVisible(true);
+                new UploadDownloadGUI(request).setVisible(true);
             }
         });
     }

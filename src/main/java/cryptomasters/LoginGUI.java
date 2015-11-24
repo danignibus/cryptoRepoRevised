@@ -10,13 +10,13 @@ package cryptomasters;
  * @author danignibus
  */
 public class LoginGUI extends javax.swing.JFrame {
-    public String userCredentials;
-    public String userGroupKey;
+    public RequestData request;
 
     /**
      * Creates new form Login
      */
     public LoginGUI() {
+        request = new RequestData();
         initComponents();
     }
 
@@ -42,6 +42,11 @@ public class LoginGUI extends javax.swing.JFrame {
         jLabel2.setText("First, please provide your Azure credentials. ");
 
         groupNameTextField.setText("Enter your account name here...");
+        groupNameTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                groupNameTextFieldMouseClicked(evt);
+            }
+        });
         groupNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 groupNameTextFieldActionPerformed(evt);
@@ -49,6 +54,11 @@ public class LoginGUI extends javax.swing.JFrame {
         });
 
         groupKeyTextField.setText("Enter your group key here...");
+        groupKeyTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                groupKeyTextFieldMouseClicked(evt);
+            }
+        });
 
         submitButton.setText("Log me in!!!");
         submitButton.setToolTipText("");
@@ -110,14 +120,23 @@ public class LoginGUI extends javax.swing.JFrame {
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
         System.out.println("buttonPressed!");
-        userCredentials = groupNameTextField.getText();
-        userGroupKey = groupKeyTextField.getText();
-        System.out.println("saved group name:" + userCredentials);
-        System.out.println("saved group key:" + userGroupKey);
+        request.setUserCredentials(groupNameTextField.getText());
+        request.setUserGroupKey(groupKeyTextField.getText());
+        System.out.println("saved group name:" + request.userCredentials);
+        System.out.println("saved group key:" + request.userGroupKey);
+
         this.setVisible(false);
-        UploadDownloadGUI uploadDownload = new UploadDownloadGUI();
+        UploadDownloadGUI uploadDownload = new UploadDownloadGUI(request);
         uploadDownload.setVisible(true);
     }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void groupNameTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupNameTextFieldMouseClicked
+        groupNameTextField.setText("");
+    }//GEN-LAST:event_groupNameTextFieldMouseClicked
+
+    private void groupKeyTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupKeyTextFieldMouseClicked
+        groupKeyTextField.setText("");
+    }//GEN-LAST:event_groupKeyTextFieldMouseClicked
 
     /**
      * @param args the command line arguments
