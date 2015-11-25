@@ -31,12 +31,17 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Security;
+import org.apache.commons.codec.DecoderException;
+import static org.apache.commons.codec.binary.Hex.encodeHex;
+import static org.apache.commons.codec.binary.Hex.decodeHex;
+import static org.apache.commons.io.FileUtils.readFileToByteArray;
+
 //import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class ManageSecretKey {
 
     public static void main(String[] args) throws Exception {
-        String password = args[0];
+        String password = "kev";
         
         SecretKey key = makeKey();
         storeKey(key, password);  
@@ -53,7 +58,7 @@ public class ManageSecretKey {
     }
     
     public static SecretKey makeAndStore(String password) throws Exception{
-         SecretKey key = makeKey();
+        SecretKey key = makeKey();
         storeKey(key, password); 
         return key;
     }
@@ -81,8 +86,12 @@ public class ManageSecretKey {
     public static void storeKey(SecretKey secKey, String password) throws Exception{
         final String keyStoreFile = "/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt";
         
+        byte[] encodedKey = secKey.getEncoded();
+        char[] hex = encodeHex(encodedKey);
+        String keyData = String.valueOf(hex);
+        
         PrintWriter out = new PrintWriter("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
-        out.println(secKey.toString());
+        out.println(keyData);
         out.close();
         System.out.println("key has been stored");
         //STORING USING KEY STORE
@@ -128,11 +137,28 @@ public class ManageSecretKey {
 //        return key;
 //    }
     
-    public static SecretKey retrieveKey(String keyStoreFile) throws IOException{
-        byte[] encodedKey = Files.readAllBytes(Paths.get(keyStoreFile));
-        SecretKey originalKey = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-        System.out.println(originalKey.toString());
+    public static SecretKey retrieveKey(String keyStoreFile) throws IOException, DecoderException{
+        File f = new File(keyStoreFile);
+        
+//        byte[] encodedKey = Files.readAllBytes(Paths.get(keyStoreFile));
+        String data = new String(readFileToByteArray(f));
+        char[] hex = data.toCharArray();
+        byte[] encoded;
+        try{
+            encoded = decodeHex(hex);
+        }
+        catch(DecoderException e){
+            e.printStackTrace();
+            return null;
+        }
+        
+        SecretKey originalKey = new SecretKeySpec(encoded, "AES");
         return originalKey;
+        
+//        
+//        SecretKey originalKey = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+//        System.out.println(originalKey.toString());
+//        return originalKey;
     }
 
 }

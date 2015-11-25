@@ -20,6 +20,9 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
+
+
+
 /**
  *
  * @author kdonahoe
@@ -29,11 +32,11 @@ public class FileEncryption {
     static SecretKey key; 
     
     public FileEncryption() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, Exception{
-//        key = ManageSecretKey.retrieveKey("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
+        key = ManageSecretKey.retrieveKey("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
 
         String password = "kev";
 
-        key = ManageSecretKey.makeAndStore(password);
+//        key = ManageSecretKey.makeAndStore(password);
        
         aesCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         aesCipher.init(Cipher.ENCRYPT_MODE, key); 
