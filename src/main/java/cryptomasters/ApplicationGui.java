@@ -18,7 +18,8 @@ public class ApplicationGui extends javax.swing.JFrame {
     /**
      * Creates new form ApplicationGUI
      */
-    public ApplicationGui() {
+    
+    public ApplicationGui(){
         initComponents();
     }
 
@@ -101,9 +102,10 @@ public class ApplicationGui extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("Upload selected");
 
-//        String password = "kev";
+//        String password = "iowa-15K";
 //        String[] args = new String[1];
 //        args[0] = password;
+//        ManageSecretKey.main(args);
 //        ManageSecretKey manageKey = new ManageSecretKey();
 //        SecretKey key = manageKey.makeKey();
 //        manageKey.storeKey(key, password);
