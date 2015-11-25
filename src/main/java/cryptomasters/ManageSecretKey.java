@@ -14,6 +14,10 @@ package cryptomasters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.KeyStore;
 import java.security.KeyStore.PasswordProtection;
 import java.security.KeyStoreException;
@@ -26,15 +30,39 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.Security;
+import org.apache.commons.codec.DecoderException;
+import static org.apache.commons.codec.binary.Hex.encodeHex;
+import static org.apache.commons.codec.binary.Hex.decodeHex;
+import static org.apache.commons.io.FileUtils.readFileToByteArray;
+
+//import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class ManageSecretKey {
 
     public static void main(String[] args) throws Exception {
-        String password = args[0];
+        String password = "kev";
         
         SecretKey key = makeKey();
         storeKey(key, password);  
+         
+//        Security.addProvider(new BouncyCastleProvider());
+//        
+//        if (Security.getProvider("BC") == null){
+//            System.out.println("Bouncy Castle provider is NOT available");
+//        }
+//        else{
+//            System.out.println("Bouncy Castle provider is available");
+//        }
+        
     }
+    
+    public static SecretKey makeAndStore(String password) throws Exception{
+        SecretKey key = makeKey();
+        storeKey(key, password); 
+        return key;
+    }
+    
     /**
      * 
      * Generates a fresh secret key, and stores it into a Key File.
@@ -43,7 +71,7 @@ public class ManageSecretKey {
      */
     public static SecretKey makeKey() throws NoSuchAlgorithmException, Exception{
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(256);
+        keyGen.init(128);
         SecretKey secKey = keyGen.generateKey();
         System.out.println("Generated Key: " + secKey.toString());
         return secKey;
@@ -56,16 +84,26 @@ public class ManageSecretKey {
      *  
      */
     public static void storeKey(SecretKey secKey, String password) throws Exception{
-        final String keyStoreFile = "/Users/kdonahoe/Desktop/KeyStore_File/passwords1.txt";
-        KeyStore keyStore = createKeyStore(keyStoreFile, password);
+        final String keyStoreFile = "/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt";
         
-        KeyStore.SecretKeyEntry ksEntry = new KeyStore.SecretKeyEntry(secKey);
-        //additional level of security (other than just password) to storing the secret key
-        String pwdSecret = "pw-secret";
-        PasswordProtection keyPassword = new PasswordProtection(pwdSecret.toCharArray());
+        byte[] encodedKey = secKey.getEncoded();
+        char[] hex = encodeHex(encodedKey);
+        String keyData = String.valueOf(hex);
         
-        keyStore.setEntry("kevSecretKey", ksEntry, keyPassword);
-        keyStore.store(new FileOutputStream(keyStoreFile), password.toCharArray());
+        PrintWriter out = new PrintWriter("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
+        out.println(keyData);
+        out.close();
+        System.out.println("key has been stored");
+        //STORING USING KEY STORE
+//        KeyStore keyStore = createKeyStore(keyStoreFile, password);
+//        
+//        KeyStore.SecretKeyEntry ksEntry = new KeyStore.SecretKeyEntry(secKey);
+//        //additional level of security (other than just password) to storing the secret key
+//        PasswordProtection keyPassword = new PasswordProtection("iowa-15K".toCharArray());
+//        
+//        keyStore.setEntry("kevSecretKey", ksEntry, keyPassword);
+//        keyStore.store(new FileOutputStream(keyStoreFile), password.toCharArray());
+//        System.out.println("The key: " + secKey.toString() +  "has been stored");
     }
     
      /**
@@ -89,14 +127,38 @@ public class ManageSecretKey {
     }
     
     
-    public static SecretKey retrieveKey(KeyStore keyStore, String password) throws NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException{
-//        String pwdSecret = "pw-secret";
-        PasswordProtection keyPassword = new PasswordProtection(password.toCharArray());
+//    public static SecretKey retrieveKey(KeyStore keyStore, String password) throws NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException{
+//        PasswordProtection keyPassword = new PasswordProtection("iowa-15K".toCharArray());
+//        
+//        KeyStore.Entry entry = keyStore.getEntry("kevSecretKey", keyPassword);
+//        SecretKey key = ((KeyStore.SecretKeyEntry) entry).getSecretKey();
+//        
+//        System.out.println("Retrieved Key: " + key.toString());
+//        return key;
+//    }
+    
+    public static SecretKey retrieveKey(String keyStoreFile) throws IOException, DecoderException{
+        File f = new File(keyStoreFile);
         
-        KeyStore.Entry entry = keyStore.getEntry("kevSecretKey", keyPassword);
-        SecretKey key = ((KeyStore.SecretKeyEntry) entry).getSecretKey();
-        System.out.println("Retrieved Key: " + key.toString());
-        return key;
+//        byte[] encodedKey = Files.readAllBytes(Paths.get(keyStoreFile));
+        String data = new String(readFileToByteArray(f));
+        char[] hex = data.toCharArray();
+        byte[] encoded;
+        try{
+            encoded = decodeHex(hex);
+        }
+        catch(DecoderException e){
+            e.printStackTrace();
+            return null;
+        }
+        
+        SecretKey originalKey = new SecretKeySpec(encoded, "AES");
+        return originalKey;
+        
+//        
+//        SecretKey originalKey = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+//        System.out.println(originalKey.toString());
+//        return originalKey;
     }
 
 }

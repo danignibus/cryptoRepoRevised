@@ -18,7 +18,9 @@ public class ApplicationGUI extends javax.swing.JFrame {
     /**
      * Creates new form ApplicationGUI
      */
+    
     public ApplicationGUI() {
+
         initComponents();
     }
 
@@ -101,9 +103,10 @@ public class ApplicationGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("Upload selected");
 
-        PickUploadFileGUI filePicker=new PickUploadFileGUI();
-        filePicker.setVisible(true);
-        this.setVisible(false);
+//        String password = "iowa-15K";
+//        PickUploadFileGUI filePicker=new PickUploadFileGUI();
+//        filePicker.setVisible(true);
+//        this.setVisible(false);
       //  String [] args = new String ["hello", "hello", "hello", "hello", "]
         //HttpsSendUpload.main("hello", "hello", "hello1", "cryptocook.png", "/Users/danignibus/Desktop/cryptocook.png");
 
@@ -111,6 +114,7 @@ public class ApplicationGUI extends javax.swing.JFrame {
 //        String password = "kev";
 //        String[] args = new String[1];
 //        args[0] = password;
+//        ManageSecretKey.main(args);
 //        ManageSecretKey manageKey = new ManageSecretKey();
 //        SecretKey key = manageKey.makeKey();
 //        manageKey.storeKey(key, password);
