@@ -12,15 +12,13 @@ package cryptomasters;
 
 
 public class CryptoMasters {
-
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
         
-        new ApplicationGui().setVisible(true);
+        new ApplicationGUI().setVisible(true);
 
     }
 }
