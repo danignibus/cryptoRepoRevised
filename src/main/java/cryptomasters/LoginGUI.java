@@ -60,6 +60,11 @@ public class LoginGUI extends javax.swing.JFrame {
                 groupKeyTextFieldMouseClicked(evt);
             }
         });
+        groupKeyTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupKeyTextFieldActionPerformed(evt);
+            }
+        });
 
         submitButton.setText("Log me in!!!");
         submitButton.setToolTipText("");
@@ -144,6 +149,10 @@ public class LoginGUI extends javax.swing.JFrame {
     private void groupKeyTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupKeyTextFieldMouseClicked
         groupKeyTextField.setText("");
     }//GEN-LAST:event_groupKeyTextFieldMouseClicked
+
+    private void groupKeyTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupKeyTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_groupKeyTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
