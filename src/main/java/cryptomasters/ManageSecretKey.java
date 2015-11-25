@@ -14,7 +14,10 @@ package cryptomasters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.KeyStore;
 import java.security.KeyStore.PasswordProtection;
 import java.security.KeyStoreException;
@@ -39,15 +42,22 @@ public class ManageSecretKey {
         storeKey(key, password);  
          
 //        Security.addProvider(new BouncyCastleProvider());
-        
-        if (Security.getProvider("BC") == null){
-            System.out.println("Bouncy Castle provider is NOT available");
-        }
-        else{
-            System.out.println("Bouncy Castle provider is available");
-        }
+//        
+//        if (Security.getProvider("BC") == null){
+//            System.out.println("Bouncy Castle provider is NOT available");
+//        }
+//        else{
+//            System.out.println("Bouncy Castle provider is available");
+//        }
         
     }
+    
+    public static SecretKey makeAndStore(String password) throws Exception{
+         SecretKey key = makeKey();
+        storeKey(key, password); 
+        return key;
+    }
+    
     /**
      * 
      * Generates a fresh secret key, and stores it into a Key File.
@@ -56,7 +66,7 @@ public class ManageSecretKey {
      */
     public static SecretKey makeKey() throws NoSuchAlgorithmException, Exception{
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(256);
+        keyGen.init(128);
         SecretKey secKey = keyGen.generateKey();
         System.out.println("Generated Key: " + secKey.toString());
         return secKey;
@@ -108,13 +118,21 @@ public class ManageSecretKey {
     }
     
     
-    public static SecretKey retrieveKey(KeyStore keyStore, String password) throws NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException{
-        PasswordProtection keyPassword = new PasswordProtection("iowa-15K".toCharArray());
-        
-        KeyStore.Entry entry = keyStore.getEntry("kevSecretKey", keyPassword);
-        SecretKey key = ((KeyStore.SecretKeyEntry) entry).getSecretKey();
-        System.out.println("Retrieved Key: " + key.toString());
-        return key;
+//    public static SecretKey retrieveKey(KeyStore keyStore, String password) throws NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException{
+//        PasswordProtection keyPassword = new PasswordProtection("iowa-15K".toCharArray());
+//        
+//        KeyStore.Entry entry = keyStore.getEntry("kevSecretKey", keyPassword);
+//        SecretKey key = ((KeyStore.SecretKeyEntry) entry).getSecretKey();
+//        
+//        System.out.println("Retrieved Key: " + key.toString());
+//        return key;
+//    }
+    
+    public static SecretKey retrieveKey(String keyStoreFile) throws IOException{
+        byte[] encodedKey = Files.readAllBytes(Paths.get(keyStoreFile));
+        SecretKey originalKey = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+        System.out.println(originalKey.toString());
+        return originalKey;
     }
 
 }
