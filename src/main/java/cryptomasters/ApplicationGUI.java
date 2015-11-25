@@ -104,9 +104,9 @@ public class ApplicationGUI extends javax.swing.JFrame {
         System.out.println("Upload selected");
 
 //        String password = "iowa-15K";
-        PickUploadFileGUI filePicker=new PickUploadFileGUI();
-        filePicker.setVisible(true);
-        this.setVisible(false);
+//        PickUploadFileGUI filePicker=new PickUploadFileGUI();
+//        filePicker.setVisible(true);
+//        this.setVisible(false);
       //  String [] args = new String ["hello", "hello", "hello", "hello", "]
         //HttpsSendUpload.main("hello", "hello", "hello1", "cryptocook.png", "/Users/danignibus/Desktop/cryptocook.png");
 

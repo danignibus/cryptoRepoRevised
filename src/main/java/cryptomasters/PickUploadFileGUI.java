@@ -12,11 +12,13 @@ import java.io.IOException;
  * @author danignibus
  */
 public class PickUploadFileGUI extends javax.swing.JFrame {
-    public static String uploadFileName;
+    public static RequestData request;
+
     /**
      * Creates new form PickUploadFile
      */
-    public PickUploadFileGUI() {
+    public PickUploadFileGUI(RequestData request) {
+        PickUploadFileGUI.request = request;
         initComponents();
     }
 
@@ -70,14 +72,21 @@ public class PickUploadFileGUI extends javax.swing.JFrame {
         if (command.equals(javax.swing.JFileChooser.APPROVE_SELECTION)) {
           File selectedFile = jFileChooser1.getSelectedFile();
           //TODO: set name of string
-          uploadFileName = selectedFile.getName();
-          System.out.println(selectedFile);
+          String absolutePath = selectedFile.getAbsolutePath();
+          request.setUploadFileName(absolutePath); 
+          
+         // System.out.println("Info so far" + LoginGUI.userCredentials + LoginGUI.userGroupKey);
+          System.out.println(request.getUploadFileName());
+          UploadFileGUI newUploadFileGUI = new UploadFileGUI(request);
+          newUploadFileGUI.setVisible(true);
           this.setVisible(false);
           
         }
         else if (command.equals(javax.swing.JFileChooser.CANCEL_SELECTION)) {
           System.out.println("User canceled!");
           this.setVisible(false);
+          UploadDownloadGUI newUploadDownload = new UploadDownloadGUI(request);
+          newUploadDownload.setVisible(true);
         }
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 
@@ -112,7 +121,7 @@ public class PickUploadFileGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PickUploadFileGUI().setVisible(true);
+                new PickUploadFileGUI(request).setVisible(true);
             }
         });
     }
