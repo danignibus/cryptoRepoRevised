@@ -71,7 +71,6 @@ public class PickUploadFileGUI extends javax.swing.JFrame {
         String command = evt.getActionCommand();
         if (command.equals(javax.swing.JFileChooser.APPROVE_SELECTION)) {
           File selectedFile = jFileChooser1.getSelectedFile();
-          //TODO: set name of string
           String absolutePath = selectedFile.getAbsolutePath();
           request.setUploadFileName(absolutePath); 
           

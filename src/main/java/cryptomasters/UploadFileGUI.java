@@ -159,8 +159,13 @@ public class UploadFileGUI extends javax.swing.JFrame {
             newContainerName = newContainerName.toLowerCase();
             request.setContainerName(newContainerName);
             
-            
-            HttpsSendUpload sendIt = new HttpsSendUpload(request);
+            try {
+                HttpsSendUpload sendIt = new HttpsSendUpload(request);
+
+            }
+            catch (Exception e) {
+                System.out.println("Wrong credentials supplied");
+            }
         }
         else if (containerChoice.equals("existingContainerRadioButton")) {
             //submit existing container request
