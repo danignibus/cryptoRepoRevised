@@ -8,6 +8,7 @@ package cryptomasters;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 /**
@@ -74,6 +75,11 @@ public class UploadFileGUI extends javax.swing.JFrame {
 
         containersButtonGroup.add(newContainerRadioButton);
         newContainerRadioButton.setText("Create a new container");
+        newContainerRadioButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                newContainerRadioButtonItemStateChanged(evt);
+            }
+        });
         newContainerRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newContainerRadioButtonActionPerformed(evt);
@@ -81,6 +87,7 @@ public class UploadFileGUI extends javax.swing.JFrame {
         });
 
         newContainerNameInput.setText("Enter new container name here");
+        newContainerNameInput.setVisible(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -150,9 +157,13 @@ public class UploadFileGUI extends javax.swing.JFrame {
     private void submitUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitUploadButtonActionPerformed
         //submit request
         String containerChoice = getSelectedButtonText(containersButtonGroup);
-        System.out.println(containerChoice);
+        if (containerChoice == null) {
+            JOptionPane.showMessageDialog(this, "Please select a radio button option.");
+
+        }
         if (containerChoice.equals("Create a new container")) {
             //submit new container request
+            System.out.println("got here");
             String uploadFileSaveName = fileNameInput.getText();
             request.setUploadFileSaveName(uploadFileSaveName);
             String newContainerName = newContainerNameInput.getText();
@@ -190,7 +201,15 @@ public class UploadFileGUI extends javax.swing.JFrame {
 
     private void newContainerRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newContainerRadioButtonActionPerformed
         // TODO add your handling code here:
+        newContainerNameInput.setVisible(true);
+        revalidate();
+
     }//GEN-LAST:event_newContainerRadioButtonActionPerformed
+
+    private void newContainerRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_newContainerRadioButtonItemStateChanged
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_newContainerRadioButtonItemStateChanged
 
     /**
      * @param args the command line arguments
