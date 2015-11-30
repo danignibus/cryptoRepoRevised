@@ -6,6 +6,7 @@
 package cryptomasters;
 
 import static cryptomasters.FileEncryption.key;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +19,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import org.apache.commons.codec.DecoderException;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -39,15 +41,12 @@ public class FileDecryption {
     public static String decryptFile(String fileToDecryptPath) throws IOException, IllegalBlockSizeException, BadPaddingException{
         
         byte[] cipherText = Files.readAllBytes(Paths.get(fileToDecryptPath));
-        
         byte[] decryptedText = aesCipher.doFinal(cipherText);
         
        String decryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/decryptedFiles/decryptedFile.docx";
-       
-       FileOutputStream fileOS = new FileOutputStream(decryptedFilePath);
-       fileOS.write(decryptedText);
-       fileOS.close();
-       return decryptedFilePath;
+       FileUtils.writeByteArrayToFile(new File(decryptedFilePath), decryptedText);
+
+       return decryptedFilePath;                     
     }
     
     

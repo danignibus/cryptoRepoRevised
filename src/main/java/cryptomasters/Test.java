@@ -18,9 +18,11 @@ public class Test {
     
     public static void main(String args[]) throws NoSuchPaddingException, InvalidKeyException, IOException, Exception{
         FileEncryption fe = new FileEncryption();
-        
-        String path = fe.encryptFile("/Users/kdonahoe/Desktop/Crypto/encryptedFiles/kevin.docx");
-        System.out.println("File Encryption Path: " + path);
+        FileDecryption de = new FileDecryption();
+        String path = "/Users/kdonahoe/Desktop/Crypto/encryptedFiles/kevin.docx";
+        String pathEnc = fe.encryptFile(path);
+        String pathDec = de.decryptFile(pathEnc);
+//        System.out.println("File Encryption Path: " + path);
     }
     
 }
