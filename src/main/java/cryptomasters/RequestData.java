@@ -16,7 +16,27 @@ public class RequestData {
     String downloadFileName;
     String containerName;
     String uploadFileSaveName;
+    String downloadFileSaveName;
+    String downloadDirectory;
 
+    public String getDownloadFileSaveName() {
+        return downloadFileSaveName;
+    }
+
+    public void setDownloadFileSaveName(String downloadFileSaveName) {
+        this.downloadFileSaveName = downloadFileSaveName;
+    }
+
+    
+    public String getDownloadDirectory() {
+        return downloadDirectory;
+    }
+
+    public void setDownloadDirectory(String downloadDirectory) {
+        this.downloadDirectory = downloadDirectory;
+    }
+
+    
     public String getDownloadFileName() {
         return downloadFileName;
     }

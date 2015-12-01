@@ -5,6 +5,8 @@
  */
 package cryptomasters;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author danignibus
@@ -125,9 +127,9 @@ public class LoginGUI extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         System.out.println("buttonPressed!");
-        System.out.println("CHECK THIS: " + groupNameTextField.getText());
         //prevents user from submitting a blank request
-        if (groupNameTextField.getText().equals("") || groupKeyTextField.getText().equals("")) {
+        if (groupNameTextField.getText().equals("") || groupKeyTextField.getText().equals("") ) {
+            JOptionPane.showMessageDialog(this, "One or more fields unmodified; please fill in!");
 
         }
         else {
