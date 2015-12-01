@@ -7,10 +7,12 @@ package cryptomasters;
 
 import static cryptomasters.FileEncryption.key;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -24,6 +26,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
@@ -32,13 +35,22 @@ import org.apache.commons.io.FileUtils;
 
 public class FileDecryption {
     
-    static Cipher aesCipher;
+    static Cipher aesCipherDec;
     static SecretKey key;
+    final int AES_KEYLENGTH = 128;
     
-    public FileDecryption() throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, DecoderException, UnrecoverableEntryException, KeyStoreException, ClassNotFoundException{
+    public FileDecryption() throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, DecoderException, UnrecoverableEntryException, KeyStoreException, ClassNotFoundException, InvalidAlgorithmParameterException{
         key = ManageSecretKey.retrieveKey("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
-        aesCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        aesCipher.init(Cipher.DECRYPT_MODE, key);
+     
+        aesCipherDec = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+        
+        SecureRandom prng = new SecureRandom();
+        byte[] iv = new byte[AES_KEYLENGTH / 8];
+        prng.nextBytes(iv);
+      
+        IvParameterSpec ivParam = new IvParameterSpec(iv);
+        
+        aesCipherDec.init(Cipher.DECRYPT_MODE, key, ivParam);
         
 //         key = ManageSecretKey.retrieveKey("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
 //        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -54,11 +66,29 @@ public class FileDecryption {
     
     public static String decryptFile(String fileToDecryptPath) throws IOException, IllegalBlockSizeException, BadPaddingException{
         
-        byte[] cipherText = Files.readAllBytes(Paths.get(fileToDecryptPath));
-        byte[] decryptedText = aesCipher.doFinal(cipherText);
+       File fileToDecrypt = new File(fileToDecryptPath);
+       
+       FileInputStream inputStream = new FileInputStream(fileToDecrypt);
+       byte[] cipherTextBytes = new byte[(int) fileToDecrypt.length()];
+       inputStream.read(cipherTextBytes);
+       
+       byte[] clearTextBytes = aesCipherDec.doFinal(cipherTextBytes);
+       
+       String decryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/decryptedFiles/decryptedFile1.txt";
+       
+       FileOutputStream outputStream = new FileOutputStream(decryptedFilePath);
+       outputStream.write(clearTextBytes);
+       inputStream.close();
+       outputStream.close();
         
-       String decryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/decryptedFiles/decryptedFile.docx";
-       FileUtils.writeByteArrayToFile(new File(decryptedFilePath), decryptedText);
+       
+        
+        
+//        byte[] cipherText = Files.readAllBytes(Paths.get(fileToDecryptPath));
+//        byte[] decryptedText = aesCipherDec.doFinal(cipherText);
+//        
+//       String decryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/decryptedFiles/decryptedFile.docx";
+//       FileUtils.writeByteArrayToFile(new File(decryptedFilePath), decryptedText);
 
        return decryptedFilePath;                     
     }
