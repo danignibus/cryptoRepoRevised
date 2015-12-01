@@ -57,6 +57,11 @@ public class UploadFileGUI extends javax.swing.JFrame {
         jLabel1.setText("Name your file and select a container!");
 
         fileNameInput.setText("file.txt");
+        fileNameInput.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fileNameInputMouseClicked(evt);
+            }
+        });
         fileNameInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fileNameInputActionPerformed(evt);
@@ -75,11 +80,6 @@ public class UploadFileGUI extends javax.swing.JFrame {
 
         containersButtonGroup.add(newContainerRadioButton);
         newContainerRadioButton.setText("Create a new container");
-        newContainerRadioButton.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                newContainerRadioButtonItemStateChanged(evt);
-            }
-        });
         newContainerRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newContainerRadioButtonActionPerformed(evt);
@@ -88,6 +88,11 @@ public class UploadFileGUI extends javax.swing.JFrame {
 
         newContainerNameInput.setText("Enter new container name here");
         newContainerNameInput.setVisible(false);
+        newContainerNameInput.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newContainerNameInputMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,7 +180,7 @@ public class UploadFileGUI extends javax.swing.JFrame {
 
             }
             catch (Exception e) {
-                System.out.println("Wrong credentials supplied");
+                JOptionPane.showMessageDialog(this, "Wrong credentials supplied!");
             }
         }
         else if (containerChoice.equals("existingContainerRadioButton")) {
@@ -196,20 +201,23 @@ public class UploadFileGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_fileNameInputActionPerformed
 
     private void existingContainerRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existingContainerRadioButtonActionPerformed
-        // TODO add your handling code here:
+        newContainerNameInput.setVisible(false);
+        revalidate();
     }//GEN-LAST:event_existingContainerRadioButtonActionPerformed
 
     private void newContainerRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newContainerRadioButtonActionPerformed
-        // TODO add your handling code here:
         newContainerNameInput.setVisible(true);
         revalidate();
 
     }//GEN-LAST:event_newContainerRadioButtonActionPerformed
 
-    private void newContainerRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_newContainerRadioButtonItemStateChanged
-        // TODO add your handling code here:
+    private void fileNameInputMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileNameInputMouseClicked
+        fileNameInput.setText("");
+    }//GEN-LAST:event_fileNameInputMouseClicked
 
-    }//GEN-LAST:event_newContainerRadioButtonItemStateChanged
+    private void newContainerNameInputMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newContainerNameInputMouseClicked
+        newContainerNameInput.setText("");
+    }//GEN-LAST:event_newContainerNameInputMouseClicked
 
     /**
      * @param args the command line arguments
