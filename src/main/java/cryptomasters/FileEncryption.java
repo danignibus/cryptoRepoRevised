@@ -5,6 +5,7 @@
  */
 package cryptomasters;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +30,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import static org.apache.commons.codec.binary.Hex.encodeHex;
 import org.apache.commons.io.FileUtils;
 import static org.apache.commons.io.FileUtils.readFileToByteArray;
@@ -51,14 +53,26 @@ public class FileEncryption {
         String password = "kev";
         key = ManageSecretKey.makeAndStore(password);
         
-        SecureRandom prng = new SecureRandom();
-        byte[] iv = new byte[AES_KEYLENGTH / 8];
-        prng.nextBytes(iv);
-       
-        IvParameterSpec ivParam = new IvParameterSpec(iv);
+        byte[] aesKeyEnc = key.getEncoded();
+        SecretKey aeskeySpec = new SecretKeySpec(aesKeyEnc, "AES");
+        
+        final String ivStoreFile = "/Users/kdonahoe/Desktop/Crypto/ivSpec_File/ivSpec.txt";
+
+//        //maybe also write the iv to a file (in ManageSecretKey, when writing key to file)
+//        SecureRandom prng = new SecureRandom();
+//        byte[] iv = new byte[AES_KEYLENGTH / 8];
+//        prng.nextBytes(iv);
+        byte[] ivData = new byte[AES_KEYLENGTH /8];
+        DataInputStream dis = new DataInputStream(new FileInputStream(new File(ivStoreFile)));
+        dis.readFully(ivData);
+        if(dis != null){
+            dis.close();
+        }
+
+        IvParameterSpec ivParam = new IvParameterSpec(ivData);
         
         aesCipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-        aesCipher.init(Cipher.ENCRYPT_MODE, key, ivParam); 
+        aesCipher.init(Cipher.ENCRYPT_MODE, aeskeySpec, ivParam); 
        
     }
                     
@@ -69,17 +83,13 @@ public class FileEncryption {
        byte[] clearTextBytes = new byte[(int) fileToEncrypt.length()];
        inputStream.read(clearTextBytes);
        
+       //just to print out the file... only works with .txt files
        Scanner input = new Scanner(fileToEncrypt);
        while(input.hasNext()){
            System.out.println("line: " +input.next());
        }
        input.close();
 
-//       Set<Charset> newset = possibleCharsets(clearTextBytes);
-//      new
-//       
-//       String str = new String(clearTextBytes, (Charset) newset);
-//       System.out.println("set: " + str);
        
        byte[] cipherTextBytes = aesCipher.doFinal(clearTextBytes);
               
@@ -89,27 +99,8 @@ public class FileEncryption {
        outputStream.write(cipherTextBytes);
        inputStream.close();
        outputStream.close();
-       
-               
-               
-//        byte[] clearText = Files.readAllBytes(Paths.get(fileToEncryptPath));
-//        
-//        byte[] cipherText = aesCipher.doFinal(clearText);
-//       
-//        String encryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/encryptedFiles/encryptedFile.docx";
-//
-//       FileUtils.writeByteArrayToFile(new File(encryptedFilePath), cipherText);
-
-       
-       
-       
-       //IF WANT TO CHECK DECRYPTION RIGHT AFTER ENCRYPTION - WAS WORKING EARLIER
-//        aesCipher.init(Cipher.DECRYPT_MODE, key);
-//        byte[] tempClearTextDec = aesCipher.doFinal(cipherText);
-//        String tempDecrypted = new String(tempClearTextDec, "UTF-8");
-//        
-//        FileUtils.writeByteArrayToFile(new File("/Users/kdonahoe/Desktop/Crypto/DecryptedFiles/file"), tempClearTextDec);
-                
+ 
+    
         return encryptedFilePath;
    }
     

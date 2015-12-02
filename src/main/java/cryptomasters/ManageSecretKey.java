@@ -11,6 +11,7 @@ package cryptomasters;
  * @author kdonahoe
  */
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,6 +38,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Security;
+import javax.crypto.spec.IvParameterSpec;
 import org.apache.commons.codec.DecoderException;
 import static org.apache.commons.codec.binary.Hex.encodeHex;
 import static org.apache.commons.codec.binary.Hex.decodeHex;
@@ -46,6 +48,8 @@ import static org.apache.commons.io.FileUtils.readFileToByteArray;
 
 public class ManageSecretKey {
 
+    final static int AES_KEYLENGTH = 128;
+    
     public static void main(String[] args) throws Exception {
         String password = "kev";
         
@@ -67,9 +71,8 @@ public class ManageSecretKey {
      */
     public static SecretKey makeKey() throws NoSuchAlgorithmException, Exception{
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(128);
+        keyGen.init(AES_KEYLENGTH);
         SecretKey secKey = keyGen.generateKey();
-//        System.out.println("Generated Key: " + secKey.toString());
         return secKey;   
     }
     
@@ -80,28 +83,44 @@ public class ManageSecretKey {
      *  
      */
     public static void storeKey(SecretKey secKey, String password) throws Exception{
-//        final String keyStoreFile = "/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt";
+        final String keyStoreFile = "/Users/kdonahoe/Desktop/Crypto/KeyStore_File/passwords.txt";
 //        
-//        OutputStream outputstream = new FileOutputStream(keyStoreFile);
-//        ObjectOutputStream out = new ObjectOutputStream(outputstream);
-//        try{
-//            out.writeObject(secKey);
-//        } finally{
-//            out.close();
-//        }
+        OutputStream outputstream = new FileOutputStream(keyStoreFile);
+        ObjectOutputStream out = new ObjectOutputStream(outputstream);
+        try{
+            out.writeObject(secKey);
+        } finally{
+            out.close();
+        }
         
         
+        final String ivStoreFile = "/Users/kdonahoe/Desktop/Crypto/ivSpec_File/ivSpec.txt";
         
-        byte[] encodedKey = secKey.getEncoded();
-        char[] hex = encodeHex(encodedKey);
-//        String keyData = String.valueOf(hex);
+        SecureRandom prng = new SecureRandom();
+        byte[] iv = new byte[AES_KEYLENGTH / 8];
+        prng.nextBytes(iv);
+               
+        OutputStream ivoutputstream = new FileOutputStream(ivStoreFile);
+        BufferedOutputStream ivout = new BufferedOutputStream(ivoutputstream);
+        try{
+            ivout.write(iv);
+        } finally{
+            ivout.close();
+        }
         
-        PrintWriter out = new PrintWriter("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
-        //or try just print (ratherthan println)
-        out.print(hex);
-        out.close();
-        System.out.println("key has been stored");
         
+//        byte[] encodedKey = secKey.getEncoded();
+//        char[] hex = encodeHex(encodedKey);
+////        String keyData = String.valueOf(hex);
+//        
+//        PrintWriter out = new PrintWriter("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
+//        //or try just print (ratherthan println)
+//        out.print(hex);
+//        out.close();
+//        System.out.println("key has been stored");
+        
+
+
 
 //        //STORING USING KEY STORE
 //        KeyStore keyStore = createKeyStore(keyStoreFile, password);
@@ -148,52 +167,36 @@ public class ManageSecretKey {
     
     public static SecretKey retrieveKey(String keyStoreFile) throws IOException, DecoderException, NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException, ClassNotFoundException{
     
-//        SecretKey key;
-//        InputStream inputStream = new FileInputStream(keyStoreFile);    
-//        ObjectInputStream in = new ObjectInputStream(inputStream);
-//        try{
-//            key = (SecretKey) in.readObject();
-//        }finally{
-//            in.close();
-//        }
-//        return key;
-        
-        File f = new File(keyStoreFile);
-//        
-//        // DONIG IT THIS WAY - GET "Invalid AES key length: 33 bytes"
-//        FileInputStream fin = null;
-//        byte fileContent[] = null;
-//        try{
-//            fin = new FileInputStream(f);
-//            fileContent = new byte[(int)f.length()];
-//            fin.read(fileContent);
-//            
-//        
-//        }catch(FileNotFoundException e){
-//            
-//        }
-//        SecretKey originalKey = new SecretKeySpec(fileContent, "AES");
-//        return originalKey;
-//        
-        
-        
-//        byte[] encodedKey = Files.readAllBytes(Paths.get(keyStoreFile));
-        
-        String data = new String(readFileToByteArray(f));
-        System.out.print("key: " + data);
-        char[] hex = data.toCharArray();
-        
-        byte[] encoded;
+        SecretKey key;
+        InputStream inputStream = new FileInputStream(keyStoreFile);    
+        ObjectInputStream in = new ObjectInputStream(inputStream);
         try{
-            encoded = decodeHex(hex);
+            key = (SecretKey) in.readObject();
+        }finally{
+            in.close();
         }
-        catch(DecoderException e){
-            e.printStackTrace();
-            return null;
-        }
+        return key;
         
-        SecretKey originalKey = new SecretKeySpec(encoded, "AES");
-        return originalKey;
+//        File f = new File(keyStoreFile);
+ 
+//        
+////        byte[] encodedKey = Files.readAllBytes(Paths.get(keyStoreFile));
+//        
+//        String data = new String(readFileToByteArray(f));
+//        System.out.print("key: " + data);
+//        char[] hex = data.toCharArray();
+//        
+//        byte[] encoded;
+//        try{
+//            encoded = decodeHex(hex);
+//        }
+//        catch(DecoderException e){
+//            e.printStackTrace();
+//            return null;
+//        }
+//        
+//        SecretKey originalKey = new SecretKeySpec(encoded, "AES");
+//        return originalKey;
         
 //        SecretKey originalKey = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
 //        System.out.println(originalKey.toString());
