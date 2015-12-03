@@ -97,15 +97,6 @@ public class UploadDownloadGUI extends javax.swing.JFrame {
         this.setVisible(false);
       //  String [] args = new String ["hello", "hello", "hello", "hello", "]
         //HttpsSendUpload.main("hello", "hello", "hello1", "cryptocook.png", "/Users/danignibus/Desktop/cryptocook.png");
-
-
-//        String password = "kev";
-//        String[] args = new String[1];
-//        args[0] = password;
-//        ManageSecretKey manageKey = new ManageSecretKey();
-//        SecretKey key = manageKey.makeKey();
-//        manageKey.storeKey(key, password);
-
         
     }//GEN-LAST:event_uploadButtonActionPerformed
 

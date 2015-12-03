@@ -58,10 +58,6 @@ public class FileEncryption {
         
         final String ivStoreFile = "/Users/kdonahoe/Desktop/Crypto/ivSpec_File/ivSpec.txt";
 
-//        //maybe also write the iv to a file (in ManageSecretKey, when writing key to file)
-//        SecureRandom prng = new SecureRandom();
-//        byte[] iv = new byte[AES_KEYLENGTH / 8];
-//        prng.nextBytes(iv);
         byte[] ivData = new byte[AES_KEYLENGTH /8];
         DataInputStream dis = new DataInputStream(new FileInputStream(new File(ivStoreFile)));
         dis.readFully(ivData);
@@ -99,9 +95,8 @@ public class FileEncryption {
        outputStream.write(cipherTextBytes);
        inputStream.close();
        outputStream.close();
- 
-    
-        return encryptedFilePath;
+
+       return encryptedFilePath;
    }
     
    public static Set<Charset> possibleCharsets(byte[] bytes) {
