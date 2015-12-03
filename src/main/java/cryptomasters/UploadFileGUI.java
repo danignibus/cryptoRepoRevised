@@ -48,6 +48,7 @@ public class UploadFileGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         submitUploadButton.setText("Upload dat ish!!!");
+        submitUploadButton.setName(""); // NOI18N
         submitUploadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submitUploadButtonActionPerformed(evt);

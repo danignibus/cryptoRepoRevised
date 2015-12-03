@@ -86,6 +86,11 @@ public class UploadDownloadGUI extends javax.swing.JFrame {
     private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
         // TODO add download handling
         System.out.println("Download selected");
+        
+        PickDownloadFileGUI blobPicker = new PickDownloadFileGUI(request);
+        blobPicker.setVisible(true);
+        this.setVisible(false);
+        
 
     }//GEN-LAST:event_downloadButtonActionPerformed
 

@@ -92,6 +92,7 @@
     <Component class="javax.swing.JButton" name="submitUploadButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Upload dat ish!!!"/>
+        <Property name="name" type="java.lang.String" value="" noResource="true"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitUploadButtonActionPerformed"/>
