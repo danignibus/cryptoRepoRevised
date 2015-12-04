@@ -5,7 +5,7 @@
  */
 package cryptomasters;
 
-import static cryptomasters.DownloadFileGUIOld.request;
+import static cryptomasters.PickDownloadFileGUI.request;
 import java.io.File;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
@@ -16,16 +16,18 @@ import javax.swing.JOptionPane;
  *
  * @author kdonahoe
  */
-public class DownloadFileGUI extends javax.swing.JFrame {
+public class DownloadFileGUIOld extends javax.swing.JPanel {
     public static RequestData request;
     /**
      * Creates new form DownloadFileGUI
      */
-    public DownloadFileGUI(RequestData request) {
-        DownloadFileGUI.request = request;
+    public DownloadFileGUIOld(RequestData request) {
+        DownloadFileGUIOld.request = request;
         initComponents();
+        System.out.println("Entered DownloadFileGui");
     }
 
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,49 +39,37 @@ public class DownloadFileGUI extends javax.swing.JFrame {
 
         directoryButtonGroup = new javax.swing.ButtonGroup();
         fileNameInput = new javax.swing.JTextField();
-        newDirectoryNameInput = new javax.swing.JTextField();
         headerLabel = new javax.swing.JLabel();
         fileLabel = new javax.swing.JLabel();
-        submitDownloadButton = new javax.swing.JButton();
-        chooseDirectory = new javax.swing.JFileChooser();
-        newDirectoryRadioButton = new javax.swing.JRadioButton();
         existingDirectoryRadioButton = new javax.swing.JRadioButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        newDirectoryRadioButton = new javax.swing.JRadioButton();
+        submitDownloadButton = new javax.swing.JButton();
+        newDirectoryNameInput = new javax.swing.JTextField();
+        chooseDirectory = new javax.swing.JFileChooser();
 
         fileNameInput.setText("file.txt");
         fileNameInput.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                fileNameInputMousePressed(evt);
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fileNameInputMouseClicked(evt);
             }
         });
 
-        newDirectoryNameInput.setText("Enter new directory name...");
-        newDirectoryNameInput.setVisible(false);
-        newDirectoryNameInput.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                newDirectoryNameInputMousePressed(evt);
-            }
-        });
+        headerLabel.setText("Name your file and select a directory on your computer to save it to!");
+        headerLabel.setToolTipText("");
 
-        headerLabel.setText("Name your file and select a directory on your computer to save it in!");
+        fileLabel.setText("File name:");
 
-        fileLabel.setText("File: ");
-
-        submitDownloadButton.setText("Download!");
-        submitDownloadButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                submitDownloadButtonMousePressed(evt);
-            }
-        });
-
-        chooseDirectory.setVisible(false);
-        chooseDirectory.addActionListener(new java.awt.event.ActionListener() {
+        directoryButtonGroup.add(existingDirectoryRadioButton);
+        existingDirectoryRadioButton.setText("Download to existing directory");
+        existingDirectoryRadioButton.setName(""); // NOI18N
+        existingDirectoryRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseDirectoryActionPerformed(evt);
+                existingDirectoryRadioButtonActionPerformed(evt);
             }
         });
 
+        directoryButtonGroup.add(newDirectoryRadioButton);
+        newDirectoryRadioButton.setSelected(true);
         newDirectoryRadioButton.setText("Create a new directory");
         newDirectoryRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,67 +77,80 @@ public class DownloadFileGUI extends javax.swing.JFrame {
             }
         });
 
-        existingDirectoryRadioButton.setText("Download to existing directory");
-        existingDirectoryRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        submitDownloadButton.setText("Download dat man");
+        submitDownloadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                existingDirectoryRadioButtonActionPerformed(evt);
+                submitDownloadButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        newDirectoryNameInput.setText("Enter new directory name");
+        newDirectoryNameInput.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                newDirectoryNameInputMousePressed(evt);
+            }
+        });
+
+        chooseDirectory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chooseDirectoryActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(headerLabel))
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(headerLabel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(93, 93, 93)
+                                .addComponent(fileLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fileNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(268, 268, 268)
+                        .addGap(190, 190, 190)
                         .addComponent(submitDownloadButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(243, 243, 243)
+                        .addGap(187, 187, 187)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(newDirectoryRadioButton)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(fileLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(fileNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(newDirectoryNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(existingDirectoryRadioButton))))
-                .addContainerGap(105, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(chooseDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(newDirectoryNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(chooseDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(166, 166, 166)
+                        .addComponent(existingDirectoryRadioButton)))
+                .addContainerGap(398, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
+                .addComponent(headerLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileLabel)
-                    .addComponent(fileNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(fileNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fileLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(newDirectoryRadioButton)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newDirectoryNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(existingDirectoryRadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chooseDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(chooseDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74)
                 .addComponent(submitDownloadButton)
-                .addContainerGap(388, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     public String getSelectedButtonText(ButtonGroup buttonGroup){
         for(Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();){
             AbstractButton button = buttons.nextElement();
@@ -159,39 +162,27 @@ public class DownloadFileGUI extends javax.swing.JFrame {
     }
     
     
-    private void chooseDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseDirectoryActionPerformed
+    
+    
+    private void existingDirectoryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existingDirectoryRadioButtonActionPerformed
         // TODO add your handling code here:
-         System.out.println("entered new Directory Radio button action");
+         System.out.println("entered existing Directory Radio button action");
+        newDirectoryNameInput.setVisible(false);
+        chooseDirectory.setVisible(true);
+        revalidate();
+    }//GEN-LAST:event_existingDirectoryRadioButtonActionPerformed
 
-        String command = evt.getActionCommand();
-        if(command.equals(javax.swing.JFileChooser.APPROVE_SELECTION)){
-            File selectedFile = chooseDirectory.getSelectedFile();
-            
-            String absolutePath = selectedFile.getAbsolutePath();
-            request.setDownloadFileSaveName(absolutePath);
-        
-            System.out.println("Will download file to: "+request.getDownloadFileSaveName());
-
-        }
-        else if(command.equals(javax.swing.JFileChooser.CANCEL_OPTION)){
-            JOptionPane.showMessageDialog(this, "Please either select existing directory, or create a new one.");
-        }
-
-        
-    }//GEN-LAST:event_chooseDirectoryActionPerformed
-
-    private void fileNameInputMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileNameInputMousePressed
+    private void newDirectoryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newDirectoryRadioButtonActionPerformed
         // TODO add your handling code here:
-        fileNameInput.setText("");
-    }//GEN-LAST:event_fileNameInputMousePressed
+        newDirectoryNameInput.setVisible(true);
+        chooseDirectory.setVisible(false);
+        System.out.println("entered new Directory Radio button action");
+        revalidate();
+    }//GEN-LAST:event_newDirectoryRadioButtonActionPerformed
 
-    private void newDirectoryNameInputMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newDirectoryNameInputMousePressed
+    private void submitDownloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitDownloadButtonActionPerformed
         // TODO add your handling code here:
-        newDirectoryNameInput.setText("");
-    }//GEN-LAST:event_newDirectoryNameInputMousePressed
 
-    private void submitDownloadButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitDownloadButtonMousePressed
-        // TODO add your handling code here:
         if(fileNameInput.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Please provide file name");
         }
@@ -234,28 +225,40 @@ public class DownloadFileGUI extends javax.swing.JFrame {
             }
         }
         }
+    }//GEN-LAST:event_submitDownloadButtonActionPerformed
+
+    private void chooseDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseDirectoryActionPerformed
+        // TODO add your handling code here:
+          System.out.println("entered new Directory Radio button action");
+
+        String command = evt.getActionCommand();
+        if(command.equals(javax.swing.JFileChooser.APPROVE_SELECTION)){
+            File selectedFile = chooseDirectory.getSelectedFile();
+            
+            String absolutePath = selectedFile.getAbsolutePath();
+            request.setDownloadFileSaveName(absolutePath);
         
-    }//GEN-LAST:event_submitDownloadButtonMousePressed
+            System.out.println("Will download file to: "+request.getDownloadFileSaveName());
+
+        }
+        else if(command.equals(javax.swing.JFileChooser.CANCEL_OPTION)){
+            JOptionPane.showMessageDialog(this, "Please either select existing directory, or create a new one.");
+        }
+
+    }//GEN-LAST:event_chooseDirectoryActionPerformed
+
+    private void fileNameInputMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileNameInputMouseClicked
+        // TODO add your handling code here:
+        fileNameInput.setText("");
+    }//GEN-LAST:event_fileNameInputMouseClicked
+
+    private void newDirectoryNameInputMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newDirectoryNameInputMousePressed
+        // TODO add your handling code here:
+        newDirectoryNameInput.setText("");
+    }//GEN-LAST:event_newDirectoryNameInputMousePressed
+
     
-    private void newDirectoryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newDirectoryRadioButtonActionPerformed
-        // TODO add your handling code here:
-        newDirectoryNameInput.setVisible(true);
-        newDirectoryRadioButton.setSelected(true);
-        existingDirectoryRadioButton.setSelected(false);
-        chooseDirectory.setVisible(false);
-        revalidate();
-    }//GEN-LAST:event_newDirectoryRadioButtonActionPerformed
-
-    private void existingDirectoryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existingDirectoryRadioButtonActionPerformed
-        // TODO add your handling code here:
-        newDirectoryNameInput.setVisible(false);
-        chooseDirectory.setVisible(true);
-        existingDirectoryRadioButton.setSelected(true);
-        newDirectoryRadioButton.setSelected(false);
-        revalidate();
-    }//GEN-LAST:event_existingDirectoryRadioButtonActionPerformed
-
-    /**
+      /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -272,20 +275,21 @@ public class DownloadFileGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DownloadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PickDownloadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DownloadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PickDownloadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DownloadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PickDownloadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DownloadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PickDownloadFileGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DownloadFileGUI(request).setVisible(true);
+                System.out.println("ENTERED MAIN of DownloadFileGUI");
+                new DownloadFileGUIOld(request).setVisible(true);
             }
         });
     }
