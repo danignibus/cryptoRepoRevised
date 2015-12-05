@@ -5,6 +5,7 @@
  */
 package cryptomasters;
 
+import com.microsoft.azure.storage.StorageException;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -178,6 +179,21 @@ public class UploadFileGUI extends javax.swing.JFrame {
             
             try {
                 HttpsSendUpload sendIt = new HttpsSendUpload(request);
+                if (sendIt.getReturnVal()) {
+                    this.setVisible(false);
+                    RequestData newRequest = new RequestData();
+                    newRequest.setUserCredentials(request.userCredentials);
+                    newRequest.setUserGroupKey(request.userGroupKey);
+                    UploadDownloadGUI startOverGUI = new UploadDownloadGUI(newRequest);
+                    startOverGUI.setVisible(true);
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "Wrong credentials supplied! \nReturning to login screen.");
+                    this.setVisible(false);
+                    RequestData newRequest = new RequestData();
+                    LoginGUI newLoginGUI = new LoginGUI();
+                    newLoginGUI.setVisible(true);
+                }
 
             }
             catch (Exception e) {
@@ -185,15 +201,14 @@ public class UploadFileGUI extends javax.swing.JFrame {
             }
         }
         else if (containerChoice.equals("existingContainerRadioButton")) {
-            //submit existing container request
+            this.setVisible(false);
+            RequestData newRequest = new RequestData();
+            newRequest.setUserCredentials(request.userCredentials);
+            newRequest.setUserGroupKey(request.userGroupKey);
+            UploadDownloadGUI startOverGUI = new UploadDownloadGUI(newRequest);
+            startOverGUI.setVisible(true);
         }
         
-        this.setVisible(false);
-        RequestData newRequest = new RequestData();
-        newRequest.setUserCredentials(request.userCredentials);
-        newRequest.setUserGroupKey(request.userGroupKey);
-        UploadDownloadGUI startOverGUI = new UploadDownloadGUI(newRequest);
-        startOverGUI.setVisible(true);
         
     }//GEN-LAST:event_submitUploadButtonActionPerformed
 
