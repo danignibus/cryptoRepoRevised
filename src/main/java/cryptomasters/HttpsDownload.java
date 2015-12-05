@@ -60,12 +60,18 @@ public class HttpsDownload {
             // Container name must be lower case.
             CloudBlobContainer container = serviceClient.getContainerReference(containerName);
             
-//            CloudBlockBlob blob = container.getBlockBlobReference(blobName);
-
-            File destinationFile = new File(request.downloadDirectory);
+            String destFile = request.downloadDirectory+request.downloadFileSaveName;
+            File f = new File(destFile);
+            f.getParentFile().mkdirs();
+            f.createNewFile();
             CloudBlob blob = request.downloadBlob;
-            blob.download(new FileOutputStream(request.downloadDirectory + request.downloadFileSaveName));
-            System.out.println("Downloaded file: "+blob.getName() + " to: "+request.downloadDirectory);
+            blob.download(new FileOutputStream(f));
+            
+            String filePathToDecrypt = request.downloadDirectory+request.downloadFileSaveName;
+            FileDecryption fileDec = new FileDecryption();
+            String decryptedFilePath = fileDec.decryptFile(filePathToDecrypt);
+            
+            System.out.println("Downloaded file: "+blob.getName() + " to: "+decryptedFilePath);
             
             
         }

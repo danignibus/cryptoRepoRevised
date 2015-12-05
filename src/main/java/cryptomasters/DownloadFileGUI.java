@@ -161,7 +161,6 @@ public class DownloadFileGUI extends javax.swing.JFrame {
     
     private void chooseDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseDirectoryActionPerformed
         // TODO add your handling code here:
-         System.out.println("entered new Directory Radio button action");
 
         String command = evt.getActionCommand();
         if(command.equals(javax.swing.JFileChooser.APPROVE_SELECTION)){
@@ -210,10 +209,10 @@ public class DownloadFileGUI extends javax.swing.JFrame {
 
                 String downloadFileSaveName = fileNameInput.getText();
                 request.downloadFileSaveName = downloadFileSaveName;
-                String newDirectoryName = newDirectoryNameInput.getText();
+                String newDirectoryName = "/Users/kdonahoe/Desktop/" + newDirectoryNameInput.getText();
 
-                //FOR NOW, automatically saves new directory on my Desktop (have to change so not just me)
-                request.downloadDirectory = "/Users/kdonahoe/Desktop/";
+                request.downloadDirectory = newDirectoryName+"/";
+                boolean newFile = new File(request.downloadDirectory).mkdirs();
 
                 try{
                     HttpsDownload downloadIt = new HttpsDownload(request);

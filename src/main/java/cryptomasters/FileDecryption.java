@@ -5,6 +5,7 @@
  */
 package cryptomasters;
 
+import static cryptomasters.DownloadFileGUI.request;
 import static cryptomasters.FileEncryption.key;
 import java.io.DataInputStream;
 import java.io.File;
@@ -71,7 +72,8 @@ public class FileDecryption {
        
        byte[] clearTextBytes = aesCipherDec.doFinal(cipherTextBytes);
        
-       String decryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/decryptedFiles/decryptedFile1.txt";
+//       String decryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/decryptedFiles/decryptedFile1.txt";
+       String decryptedFilePath = request.downloadDirectory + request.downloadFileSaveName;
        
        FileOutputStream outputStream = new FileOutputStream(decryptedFilePath);
        outputStream.write(clearTextBytes);

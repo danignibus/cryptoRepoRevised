@@ -78,13 +78,6 @@ public class FileEncryption {
        FileInputStream inputStream = new FileInputStream(fileToEncrypt);
        byte[] clearTextBytes = new byte[(int) fileToEncrypt.length()];
        inputStream.read(clearTextBytes);
-       
-       //just to print out the file... only works with .txt files
-       Scanner input = new Scanner(fileToEncrypt);
-       while(input.hasNext()){
-           System.out.println("line: " +input.next());
-       }
-       input.close();
 
        
        byte[] cipherTextBytes = aesCipher.doFinal(clearTextBytes);
