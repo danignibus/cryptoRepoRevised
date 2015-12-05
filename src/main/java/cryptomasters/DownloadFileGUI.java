@@ -192,47 +192,50 @@ public class DownloadFileGUI extends javax.swing.JFrame {
 
     private void submitDownloadButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitDownloadButtonMousePressed
         // TODO add your handling code here:
+        String directoryChoice;
         if(fileNameInput.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Please provide file name");
         }
         else{
-            String directoryChoice = getSelectedButtonText(directoryButtonGroup);
-        if(directoryChoice == null){
-            JOptionPane.showMessageDialog(this, "Please select a radio option!");
-        }
-        if(directoryChoice.equals("Create a new directory")){
-            if(newDirectoryNameInput.getText().equals("")){
-                JOptionPane.showMessageDialog(this, "Please provide new directory name");
+//            String directoryChoice = getSelectedButtonText(directoryButtonGroup);
+              directoryChoice = "Create a new directory";
+
+            if(directoryChoice == null){
+                JOptionPane.showMessageDialog(this, "Please select a radio option!");
             }
-            
-            String downloadFileSaveName = fileNameInput.getText();
-            request.setDownloadFileSaveName(downloadFileSaveName);
-            String newDirectoryName = newDirectoryNameInput.getText();
-            
-            //FOR NOW, automatically saves new directory on my Desktop (have to change so not just me)
-            request.setDownloadDirectory("/Users/kdonahoe/Desktop/"+newDirectoryName);
-            
-            try{
-                HttpsDownload downloadIt = new HttpsDownload(request);
-            }
-            catch(Exception e){
-                JOptionPane.showMessageDialog(this, "Wrong credentials supplied!");
-            }
-            
-        }
-        else if(directoryChoice.equals("Download to existing directory")){
-            if(request.getDownloadFileSaveName() == null){
-                   JOptionPane.showMessageDialog(this, "Please select directory");
-               }
-            else{
+            else if(directoryChoice.equals("Create a new directory")){
+                if(newDirectoryNameInput.getText().equals("")){
+                    JOptionPane.showMessageDialog(this, "Please provide new directory name");
+                }
+
+                String downloadFileSaveName = fileNameInput.getText();
+                request.downloadFileSaveName = downloadFileSaveName;
+                String newDirectoryName = newDirectoryNameInput.getText();
+
+                //FOR NOW, automatically saves new directory on my Desktop (have to change so not just me)
+                request.downloadDirectory = "/Users/kdonahoe/Desktop/";
+
                 try{
                     HttpsDownload downloadIt = new HttpsDownload(request);
                 }
                 catch(Exception e){
                     JOptionPane.showMessageDialog(this, "Wrong credentials supplied!");
-                }   
+                }
+
             }
-        }
+            else if(directoryChoice.equals("Download to existing directory")){
+                if(request.getDownloadFileSaveName() == null){
+                       JOptionPane.showMessageDialog(this, "Please select directory");
+                   }
+                else{
+                    try{
+                        HttpsDownload downloadIt = new HttpsDownload(request);
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(this, "Wrong credentials supplied!");
+                    }   
+                }
+            }
         }
         
     }//GEN-LAST:event_submitDownloadButtonMousePressed

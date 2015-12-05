@@ -7,9 +7,11 @@ package cryptomasters;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.CloudBlob;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import static cryptomasters.DownloadFileGUI.request;
 import static cryptomasters.HttpsSendUpload.accountKey;
 import static cryptomasters.HttpsSendUpload.accountName;
 import static cryptomasters.HttpsSendUpload.blobName;
@@ -18,6 +20,7 @@ import static cryptomasters.HttpsSendUpload.imagePath;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 /**
  *
@@ -47,7 +50,7 @@ public class HttpsDownload {
         //+ "AccountName=cryptodaniandkev;"
         //+ "AccountKey=Vb0bAhD9etqyVJlZnOxFIgOy4TvpQ1xQ6GKMuo7ymRD8SWUxyZYBPnV83UoDW3a/Gqfe0qlWwcCsULDXmLz9jA==";
           System.out.println("ALL DATA:");
-            System.out.println(containerName + " " + imagePath + " " + blobName + " " + accountName + " " + accountKey );
+            System.out.println(containerName + " " + blobName + " " + accountName + " " + accountKey );
 
         try {
             
@@ -56,11 +59,15 @@ public class HttpsDownload {
 
             // Container name must be lower case.
             CloudBlobContainer container = serviceClient.getContainerReference(containerName);
-            CloudBlockBlob blob = container.getBlockBlobReference(blobName);
+            
+//            CloudBlockBlob blob = container.getBlockBlobReference(blobName);
 
-            File destinationFile = new File(downloadDirectory, downloadFileSaveName);
-            blob.downloadToFile(destinationFile.getAbsolutePath());
-
+            File destinationFile = new File(request.downloadDirectory);
+            CloudBlob blob = request.downloadBlob;
+            blob.download(new FileOutputStream(request.downloadDirectory + request.downloadFileSaveName));
+            System.out.println("Downloaded file: "+blob.getName() + " to: "+request.downloadDirectory);
+            
+            
         }
         catch (FileNotFoundException fileNotFoundException) {
             System.out.print("FileNotFoundException encountered: ");

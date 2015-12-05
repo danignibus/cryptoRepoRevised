@@ -5,6 +5,8 @@
  */
 package cryptomasters;
 
+import com.microsoft.azure.storage.blob.CloudBlob;
+
 /**
  *
  * @author danignibus
@@ -13,6 +15,7 @@ public class RequestData {
     String userCredentials;
     String userGroupKey;
     String uploadFileName;
+    CloudBlob downloadBlob;
     String downloadFileName;
     String containerName;
     String uploadFileSaveName;
@@ -25,6 +28,14 @@ public class RequestData {
 
     public void setDownloadFileSaveName(String downloadFileSaveName) {
         this.downloadFileSaveName = downloadFileSaveName;
+    }
+    
+    public CloudBlob getDownloadBlob(){
+        return downloadBlob;
+    }
+    
+    public void setDownloadBlob(CloudBlob downloadBlob){
+        this.downloadBlob = downloadBlob;
     }
 
     
