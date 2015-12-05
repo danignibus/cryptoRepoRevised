@@ -179,26 +179,25 @@ public class UploadFileGUI extends javax.swing.JFrame {
             
             try {
                 HttpsSendUpload sendIt = new HttpsSendUpload(request);
-                if (sendIt.getReturnVal()) {
-                    this.setVisible(false);
-                    RequestData newRequest = new RequestData();
-                    newRequest.setUserCredentials(request.userCredentials);
-                    newRequest.setUserGroupKey(request.userGroupKey);
-                    UploadDownloadGUI startOverGUI = new UploadDownloadGUI(newRequest);
-                    startOverGUI.setVisible(true);
-                }
-                else {
-                    JOptionPane.showMessageDialog(this, "Wrong credentials supplied! \nReturning to login screen.");
-                    this.setVisible(false);
-                    RequestData newRequest = new RequestData();
-                    LoginGUI newLoginGUI = new LoginGUI();
-                    newLoginGUI.setVisible(true);
-                }
+                this.setVisible(false);
+                RequestData newRequest = new RequestData();
+                newRequest.setUserCredentials(request.userCredentials);
+                newRequest.setUserGroupKey(request.userGroupKey);
+                UploadDownloadGUI startOverGUI = new UploadDownloadGUI(newRequest);
+                startOverGUI.setVisible(true);
+            }
+            catch (StorageException storageException) {
+                JOptionPane.showMessageDialog(this, "Please create a storage container without spaces.");
 
             }
             catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Wrong credentials supplied!");
+                JOptionPane.showMessageDialog(this, "Wrong credentials supplied! \nReturning to login screen.");
+                this.setVisible(false);
+                RequestData newRequest = new RequestData();
+                LoginGUI newLoginGUI = new LoginGUI();
+                newLoginGUI.setVisible(true);
             }
+                
         }
         else if (containerChoice.equals("existingContainerRadioButton")) {
             this.setVisible(false);
