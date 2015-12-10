@@ -131,7 +131,9 @@ public class DownloadFileGUI extends javax.swing.JFrame {
         else{              
                 String downloadFileSaveName = fileNameInput.getText();
                 request.downloadFileSaveName = downloadFileSaveName;
-                String newDirectoryName = "/Users/kdonahoe/Desktop/" + newDirectoryNameInput.getText();
+                String homeDir = System.getProperty("user.home");
+
+                String newDirectoryName = homeDir+"/Desktop/Crypto1/" + newDirectoryNameInput.getText();
 
                 request.downloadDirectory = newDirectoryName+"/";
                 boolean newFile = new File(request.downloadDirectory).mkdirs();

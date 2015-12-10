@@ -84,8 +84,10 @@ public class ManageSecretKey {
      */
     public static void storeKey(SecretKey secKey, String password) throws Exception{
         String homeDir = System.getProperty("user.home");
-        final String keyStoreFile = homeDir+"/Desktop/Crypto/passwords.txt";
-//        
+        boolean newCryptoFolder = new File(homeDir+"/Desktop/Crypto1/").mkdirs();
+
+        final String keyStoreFile = homeDir+"/Desktop/Crypto1/passwords.txt";
+   
         OutputStream outputstream = new FileOutputStream(keyStoreFile);
         ObjectOutputStream out = new ObjectOutputStream(outputstream);
         try{
@@ -94,8 +96,8 @@ public class ManageSecretKey {
             out.close();
         }
         
-        
-        final String ivStoreFile = homeDir+"/Desktop/Crypto/ivSpec.txt";
+
+        final String ivStoreFile = homeDir+"/Desktop/Crypto1/ivSpec.txt";
         
         SecureRandom prng = new SecureRandom();
         byte[] iv = new byte[AES_KEYLENGTH / 8];

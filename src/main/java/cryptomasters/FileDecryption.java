@@ -44,13 +44,14 @@ public class FileDecryption {
     public FileDecryption() throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, DecoderException, UnrecoverableEntryException, KeyStoreException, ClassNotFoundException, InvalidAlgorithmParameterException{
         
         String homeDir = System.getProperty("user.home");
-        final String keyStoreFile = homeDir+"/Desktop/Crypto/passwords.txt";
+                
+        final String keyStoreFile = homeDir+"/Desktop/Crypto1/passwords.txt";
         
         key = ManageSecretKey.retrieveKey(keyStoreFile);
      
         aesCipherDec = Cipher.getInstance("AES/CBC/PKCS5PADDING");
         
-        final String ivStoreFile = homeDir+"/Desktop/Crypto/ivSpec.txt";
+        final String ivStoreFile = homeDir+"/Desktop/Crypto1/ivSpec.txt";
 
         
         byte[] ivData = new byte[AES_KEYLENGTH /8];
