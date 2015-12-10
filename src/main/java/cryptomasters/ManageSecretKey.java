@@ -44,22 +44,18 @@ import static org.apache.commons.codec.binary.Hex.encodeHex;
 import static org.apache.commons.codec.binary.Hex.decodeHex;
 import static org.apache.commons.io.FileUtils.readFileToByteArray;
 
-//import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class ManageSecretKey {
 
     final static int AES_KEYLENGTH = 128;
     
     public static void main(String[] args) throws Exception {
-        String password = "kev";
         
-        SecretKey key = makeKey();
-        storeKey(key, password);          
     }
     
-    public static SecretKey makeAndStore(String password) throws Exception{
+    public static SecretKey makeAndStore() throws Exception{
         SecretKey key = makeKey();
-        storeKey(key, password); 
+        storeKey(key); 
         return key;
     }
     
@@ -82,7 +78,7 @@ public class ManageSecretKey {
      * Then stores the key into the KeyStore, with extra password protection. 
      *  
      */
-    public static void storeKey(SecretKey secKey, String password) throws Exception{
+    public static void storeKey(SecretKey secKey) throws Exception{
         String homeDir = System.getProperty("user.home");
         boolean newCryptoFolder = new File(homeDir+"/Desktop/Crypto1/").mkdirs();
 
@@ -110,20 +106,7 @@ public class ManageSecretKey {
         } finally{
             ivout.close();
         }
-        
-        
-//        byte[] encodedKey = secKey.getEncoded();
-//        char[] hex = encodeHex(encodedKey);
-////        String keyData = String.valueOf(hex);
-//        
-//        PrintWriter out = new PrintWriter("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
-//        //or try just print (ratherthan println)
-//        out.print(hex);
-//        out.close();
-//        System.out.println("key has been stored");
-        
-
-
+       
 
 //        //STORING USING KEY STORE
 //        KeyStore keyStore = createKeyStore(keyStoreFile, password);
@@ -179,34 +162,6 @@ public class ManageSecretKey {
             in.close();
         }
         return key;
-        
-//        File f = new File(keyStoreFile);
- 
-//        
-////        byte[] encodedKey = Files.readAllBytes(Paths.get(keyStoreFile));
-//        
-//        String data = new String(readFileToByteArray(f));
-//        System.out.print("key: " + data);
-//        char[] hex = data.toCharArray();
-//        
-//        byte[] encoded;
-//        try{
-//            encoded = decodeHex(hex);
-//        }
-//        catch(DecoderException e){
-//            e.printStackTrace();
-//            return null;
-//        }
-//        
-//        SecretKey originalKey = new SecretKeySpec(encoded, "AES");
-//        return originalKey;
-        
-//        SecretKey originalKey = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-//        System.out.println(originalKey.toString());
-//        return originalKey;
-
-//        PasswordProtection keyPassword = new PasswordProtection("iowa-15K".toCharArray());
-//        KeyStore.Entry entry = keyStore.getEntry("kevSecretKey", keyPassword);
             
 
     }

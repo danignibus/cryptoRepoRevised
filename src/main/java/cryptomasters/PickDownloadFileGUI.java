@@ -39,7 +39,7 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
 //        String containerName = "newcont";
         storageConnectionString =
         "DefaultEndpointsProtocol=https;"
-        + "AccountName=" + accountName + ";" + "AccountKey=" + "Vb0bAhD9etqyVJlZnOxFlgOy4TvpQ1xQ6GKMuo7ymRD8SWUxyZYBPnV83UoDW3a/Gqfe0qlWwcCsULDXmLz9jA==";
+        + "AccountName=" + accountName + ";" + "AccountKey=" + "jHt9Ewu5ujL154JkA/bGarKAeKGCwVkfmls5FI5OGlfAeFugCWq1MMVAgCQn2h9LttwAnAlYKZFLqedMCzU71Q==";
           // For easy testing:
         model = new DefaultListModel();
         model2 = new DefaultListModel();
@@ -158,6 +158,7 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(!containerInputText.equals("")){
             containerName = containerInputText.getText();
+            System.out.println(containerInputText.getText().toString());
             blobListNames.setVisible(true);
              try
             {
@@ -168,7 +169,7 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
                 CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
                 // Retrieve reference to a previously created container.
-                CloudBlobContainer container = blobClient.getContainerReference(containerName);
+                CloudBlobContainer container = blobClient.getContainerReference(containerName.toString());
 
                 // Loop over blobs within the container and output the URI to each of them.
                 for (ListBlobItem blobItem : container.listBlobs()) {

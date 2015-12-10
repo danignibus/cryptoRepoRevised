@@ -95,18 +95,6 @@ public class HttpsDownload {
         
     }
     
-//    public static void main(String[] args) {
-//        runUpload(request);
-//    }
-
-//    static void main(String accountName, String accountKey, String containerName, String blobName, String filePath) {
-//        runUpload(request);
-//    }
-    
-//        static void main(RequestData request) {
-//        runUpload(request);
-//    }
-
     HttpsDownload(RequestData request) {
         runDownload(request);
     }
