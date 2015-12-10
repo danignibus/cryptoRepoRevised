@@ -76,7 +76,7 @@ public class PickUploadFileGUI extends javax.swing.JFrame {
           
          // System.out.println("Info so far" + LoginGUI.userCredentials + LoginGUI.userGroupKey);
           System.out.println(request.getUploadFileName());
-          UploadFileGUI newUploadFileGUI = new UploadFileGUI(request);
+          NewUploadFileGUI newUploadFileGUI = new NewUploadFileGUI(request);
           newUploadFileGUI.setVisible(true);
           this.setVisible(false);
           

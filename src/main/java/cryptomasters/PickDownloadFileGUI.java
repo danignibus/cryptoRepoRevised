@@ -38,11 +38,10 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
 //        String containerName = "newcont";
         storageConnectionString =
         "DefaultEndpointsProtocol=https;"
-        + "AccountName=" + accountName + ";" + "AccountKey=" + "jHt9Ewu5ujL154JkA/bGarKAeKGCwVkfmls5FI5OGlfAeFugCWq1MMVAgCQn2h9LttwAnAlYKZFLqedMCzU71Q==";
+        + "AccountName=" + accountName + ";" + "AccountKey=" + "Vb0bAhD9etqyVJlZnOxFIgOy4TvpQ1xQ6GKMuo7ymRD8SWUxyZYBPnV83UoDW3a/Gqfe0qlWwcCsULDXmLz9jA==";
           // For easy testing:
         model = new DefaultListModel();
-       
-        
+ 
           
         initComponents();
     }

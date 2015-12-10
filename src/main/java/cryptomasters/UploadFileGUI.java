@@ -18,6 +18,7 @@ import javax.swing.JRadioButton;
  */
 public class UploadFileGUI extends javax.swing.JFrame {
     public static RequestData request;
+    public UploadContainerPicker uploadContainerPicker;
 
     /**
      * Creates new form UploadFileGUI
@@ -109,40 +110,39 @@ public class UploadFileGUI extends javax.swing.JFrame {
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(existingContainerRadioButton)
-                            .addComponent(newContainerRadioButton))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(93, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(83, 83, 83))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newContainerNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(newContainerRadioButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(fileNameInput)))
                 .addGap(14, 14, 14))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(93, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(83, 83, 83))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(newContainerNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
                 .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(fileNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(existingContainerRadioButton)
                 .addGap(18, 18, 18)
                 .addComponent(newContainerRadioButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newContainerNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(submitUploadButton)
                 .addGap(41, 41, 41))
         );
@@ -170,7 +170,6 @@ public class UploadFileGUI extends javax.swing.JFrame {
         }
         if (containerChoice.equals("Create a new container")) {
             //submit new container request
-            System.out.println("got here");
             String uploadFileSaveName = fileNameInput.getText();
             request.setUploadFileSaveName(uploadFileSaveName);
             String newContainerName = newContainerNameInput.getText();
@@ -200,12 +199,32 @@ public class UploadFileGUI extends javax.swing.JFrame {
                 
         }
         else if (containerChoice.equals("existingContainerRadioButton")) {
-            this.setVisible(false);
-            RequestData newRequest = new RequestData();
-            newRequest.setUserCredentials(request.userCredentials);
-            newRequest.setUserGroupKey(request.userGroupKey);
-            UploadDownloadGUI startOverGUI = new UploadDownloadGUI(newRequest);
-            startOverGUI.setVisible(true);
+            System.out.println("got here");
+            String uploadFileSaveName = fileNameInput.getText();
+            request.setUploadFileSaveName(uploadFileSaveName);
+            String containerName = uploadContainerPicker.getContainerName();
+            request.containerName = containerName;
+            System.out.println(containerName);
+            try {
+                HttpsSendUpload sendIt = new HttpsSendUpload(request);
+                this.setVisible(false);
+                RequestData newRequest = new RequestData();
+                newRequest.setUserCredentials(request.userCredentials);
+                newRequest.setUserGroupKey(request.userGroupKey);
+                UploadDownloadGUI startOverGUI = new UploadDownloadGUI(newRequest);
+                startOverGUI.setVisible(true);
+            }
+            catch (StorageException storageException) {
+                JOptionPane.showMessageDialog(this, "Please create a storage container without spaces.");
+
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Wrong credentials supplied! \nReturning to login screen.");
+                this.setVisible(false);
+                RequestData newRequest = new RequestData();
+                LoginGUI newLoginGUI = new LoginGUI();
+                newLoginGUI.setVisible(true);
+            }
         }
         
         
@@ -218,6 +237,10 @@ public class UploadFileGUI extends javax.swing.JFrame {
     private void existingContainerRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existingContainerRadioButtonActionPerformed
         newContainerNameInput.setVisible(false);
         revalidate();
+        uploadContainerPicker = new UploadContainerPicker(request);
+        uploadContainerPicker.setVisible(true);
+        
+        
     }//GEN-LAST:event_existingContainerRadioButtonActionPerformed
 
     private void newContainerRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newContainerRadioButtonActionPerformed
