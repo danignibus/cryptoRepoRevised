@@ -42,11 +42,15 @@ public class FileDecryption {
     final int AES_KEYLENGTH = 128;
     
     public FileDecryption() throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, DecoderException, UnrecoverableEntryException, KeyStoreException, ClassNotFoundException, InvalidAlgorithmParameterException{
-        key = ManageSecretKey.retrieveKey("/Users/kdonahoe/Desktop/Crypto/KeyStore_File/passwords.txt");
+        
+        String homeDir = System.getProperty("user.home");
+        final String keyStoreFile = homeDir+"/Desktop/Crypto/passwords.txt";
+        
+        key = ManageSecretKey.retrieveKey(keyStoreFile);
      
         aesCipherDec = Cipher.getInstance("AES/CBC/PKCS5PADDING");
         
-        final String ivStoreFile = "/Users/kdonahoe/Desktop/Crypto/ivSpec_File/ivSpec.txt";
+        final String ivStoreFile = homeDir+"/Desktop/Crypto/ivSpec.txt";
 
         
         byte[] ivData = new byte[AES_KEYLENGTH /8];
@@ -72,7 +76,6 @@ public class FileDecryption {
        
        byte[] clearTextBytes = aesCipherDec.doFinal(cipherTextBytes);
        
-//       String decryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/decryptedFiles/decryptedFile1.txt";
        String decryptedFilePath = request.downloadDirectory + request.downloadFileSaveName;
        
        FileOutputStream outputStream = new FileOutputStream(decryptedFilePath);

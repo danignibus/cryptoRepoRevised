@@ -55,8 +55,9 @@ public class FileEncryption {
         
         byte[] aesKeyEnc = key.getEncoded();
         SecretKey aeskeySpec = new SecretKeySpec(aesKeyEnc, "AES");
-        
-        final String ivStoreFile = "/Users/kdonahoe/Desktop/Crypto/ivSpec_File/ivSpec.txt";
+               
+        String homeDir = System.getProperty("user.home");
+        final String ivStoreFile = homeDir+"/Desktop/Crypto/ivSpec.txt";
 
         byte[] ivData = new byte[AES_KEYLENGTH /8];
         DataInputStream dis = new DataInputStream(new FileInputStream(new File(ivStoreFile)));
@@ -82,7 +83,8 @@ public class FileEncryption {
        
        byte[] cipherTextBytes = aesCipher.doFinal(clearTextBytes);
               
-       String encryptedFilePath = "/Users/kdonahoe/Desktop/Crypto/encryptedFiles/encryptedFile1.txt";
+       String homeDir = System.getProperty("user.home");
+       String encryptedFilePath = homeDir+"/Desktop/Crypto/encryptedFiles/encryptedFile1.txt";
        
        FileOutputStream outputStream = new FileOutputStream(encryptedFilePath);
        outputStream.write(cipherTextBytes);
@@ -91,15 +93,6 @@ public class FileEncryption {
 
        return encryptedFilePath;
    }
-    
-   public static Set<Charset> possibleCharsets(byte[] bytes) {
-    Set<Charset> charsets = new LinkedHashSet<>();
-    for (Charset charset : Charset.availableCharsets().values()) {
-        if (!new String(bytes, charset).contains("�"))
-            charsets.add(charset);
-    }
-    return charsets;
-} 
-   
+
    
 }

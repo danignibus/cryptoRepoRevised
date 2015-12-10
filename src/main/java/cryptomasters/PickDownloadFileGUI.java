@@ -27,6 +27,7 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
     public static String containerName;
     public static String storageConnectionString;
     public static DefaultListModel model;
+    public static DefaultListModel model2;
             
     /**
      * Creates new form PickDownloadFileGUI
@@ -41,6 +42,7 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
         + "AccountName=" + accountName + ";" + "AccountKey=" + "jHt9Ewu5ujL154JkA/bGarKAeKGCwVkfmls5FI5OGlfAeFugCWq1MMVAgCQn2h9LttwAnAlYKZFLqedMCzU71Q==";
           // For easy testing:
         model = new DefaultListModel();
+        model2 = new DefaultListModel();
        
         
           
@@ -60,8 +62,10 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
         containerInputText = new javax.swing.JTextField();
         listBlobsButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        blobList = new javax.swing.JList<>();
+        blobListNames = new javax.swing.JList<>();
         downloadBlobButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        realBlobNames = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,9 +85,9 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
             }
         });
 
-        blobList.setModel(model);
-        blobList.setVisible(false);
-        jScrollPane1.setViewportView(blobList);
+        blobListNames.setModel(model);
+        blobListNames.setVisible(false);
+        jScrollPane1.setViewportView(blobListNames);
 
         downloadBlobButton.setText("Download");
         downloadBlobButton.addActionListener(new java.awt.event.ActionListener() {
@@ -91,6 +95,10 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
                 downloadBlobButtonActionPerformed(evt);
             }
         });
+
+        realBlobNames.setModel(model2);
+        realBlobNames.setVisible(false);
+        jScrollPane2.setViewportView(realBlobNames);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,15 +113,19 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
                         .addGap(94, 94, 94)
                         .addComponent(containerLabel))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(listBlobsButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(197, 197, 197)
-                        .addComponent(downloadBlobButton)))
-                .addContainerGap(151, Short.MAX_VALUE))
+                        .addComponent(downloadBlobButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(151, 151, 151)
+                                .addComponent(listBlobsButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(133, 133, 133)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(45, 45, 45)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,7 +137,11 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(listBlobsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(downloadBlobButton)
                 .addContainerGap(68, Short.MAX_VALUE))
@@ -143,7 +159,7 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(!containerInputText.equals("")){
             containerName = containerInputText.getText();
-            blobList.setVisible(true);
+            blobListNames.setVisible(true);
              try
             {
                 // Retrieve storage account from connection-string.
@@ -157,9 +173,10 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
 
                 // Loop over blobs within the container and output the URI to each of them.
                 for (ListBlobItem blobItem : container.listBlobs()) {
-                    model.addElement(blobItem);
                     CloudBlob blob  = (CloudBlob) blobItem;
-                    System.out.println(blob.getName());
+                    model.addElement(blob.getName());
+                    model2.addElement(blobItem);
+//                    System.out.println(blob.getName());
                }
             }
             catch (Exception e)
@@ -171,9 +188,9 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_listBlobsButtonActionPerformed
 
     private void downloadBlobButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadBlobButtonActionPerformed
-        // TODO add your handling code here:
-        if(model.getElementAt(blobList.getSelectedIndex()) instanceof CloudBlob){
-            CloudBlob blob = (CloudBlob) model.getElementAt(blobList.getSelectedIndex());
+        // TODO add your handling code here:        
+        if( model2.getElementAt(blobListNames.getSelectedIndex()) instanceof CloudBlob){
+            CloudBlob blob = (CloudBlob) model2.getElementAt(blobListNames.getSelectedIndex());
             request.downloadBlob = blob;
             try {
                 request.downloadFileName = blob.getName();
@@ -229,11 +246,13 @@ public class PickDownloadFileGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> blobList;
+    private javax.swing.JList<String> blobListNames;
     private javax.swing.JTextField containerInputText;
     private javax.swing.JLabel containerLabel;
     private javax.swing.JButton downloadBlobButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton listBlobsButton;
+    private javax.swing.JList<String> realBlobNames;
     // End of variables declaration//GEN-END:variables
 }
