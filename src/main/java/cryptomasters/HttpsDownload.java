@@ -44,7 +44,7 @@ public class HttpsDownload {
             //TODO: take out hard coded account key!
             final String storageConnectionString =
         "DefaultEndpointsProtocol=https;"
-        + "AccountName=" + accountName + ";" + "AccountKey=" + "Vb0bAhD9etqyVJlZnOxFIgOy4TvpQ1xQ6GKMuo7ymRD8SWUxyZYBPnV83UoDW3a/Gqfe0qlWwcCsULDXmLz9jA==";
+        + "AccountName=" + accountName + ";" + "AccountKey=" + "jHt9Ewu5ujL154JkA/bGarKAeKGCwVkfmls5FI5OGlfAeFugCWq1MMVAgCQn2h9LttwAnAlYKZFLqedMCzU71Q==";
           // For easy testing:
             //"DefaultEndpointsProtocol=https;"
         //+ "AccountName=cryptodaniandkev;"
