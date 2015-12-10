@@ -49,9 +49,7 @@ public class FileEncryption {
     final int AES_KEYLENGTH = 128;
     
     public FileEncryption() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, Exception{
-//        key = ManageSecretKey.retrieveKey("/Users/kdonahoe/Desktop/KeyStore_File/passwords.txt");
-        String password = "kev";
-        key = ManageSecretKey.makeAndStore(password);
+        key = ManageSecretKey.makeAndStore();
         
         byte[] aesKeyEnc = key.getEncoded();
         SecretKey aeskeySpec = new SecretKeySpec(aesKeyEnc, "AES");
@@ -84,7 +82,7 @@ public class FileEncryption {
        byte[] cipherTextBytes = aesCipher.doFinal(clearTextBytes);
               
        String homeDir = System.getProperty("user.home");
-       String encryptedFilePath = homeDir+"/Desktop/Crypto1//encryptedFile.txt";
+       String encryptedFilePath = homeDir+"/Desktop/Crypto1/encryptedFile.txt";
        
        FileOutputStream outputStream = new FileOutputStream(encryptedFilePath);
        outputStream.write(cipherTextBytes);
