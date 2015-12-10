@@ -34,29 +34,21 @@
                       <Component id="headerLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
-                      <Component id="submitDownloadButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="243" max="-2" attributes="0"/>
+                      <Component id="fileLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="fileNameInput" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="243" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="newDirectoryRadioButton" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="fileLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="fileNameInput" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="newDirectoryNameInput" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="existingDirectoryRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="-2" pref="231" max="-2" attributes="0"/>
+                      <Component id="newDirectoryNameInput" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="263" max="-2" attributes="0"/>
+                      <Component id="submitDownloadButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="105" max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              <Component id="chooseDirectory" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="157" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -70,17 +62,11 @@
                   <Component id="fileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="fileNameInput" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-              <Component id="newDirectoryRadioButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Component id="newDirectoryNameInput" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="existingDirectoryRadioButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="chooseDirectory" min="-2" pref="324" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Component id="submitDownloadButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="388" max="32767" attributes="0"/>
+              <EmptySpace pref="91" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -101,13 +87,10 @@
       <Events>
         <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="newDirectoryNameInputMousePressed"/>
       </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="newDirectoryNameInput.setVisible(false);"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="headerLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Name your file and select a directory on your computer to save it in!"/>
+        <Property name="text" type="java.lang.String" value="Name your file and directory on your computer to save it in!"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="fileLabel">
@@ -121,30 +104,6 @@
       </Properties>
       <Events>
         <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="submitDownloadButtonMousePressed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JFileChooser" name="chooseDirectory">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chooseDirectoryActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="chooseDirectory.setVisible(false);"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="newDirectoryRadioButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Create a new directory"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newDirectoryRadioButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="existingDirectoryRadioButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Download to existing directory"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="existingDirectoryRadioButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
