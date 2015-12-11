@@ -6,7 +6,6 @@
 package cryptomasters;
 
 import com.microsoft.azure.storage.StorageException;
-import static cryptomasters.UploadFileGUI.request;
 import javax.swing.JOptionPane;
 
 /**
@@ -114,6 +113,8 @@ public class NewUploadFileGUI extends javax.swing.JFrame {
         request.setUploadFileSaveName(uploadFileSaveName);
         String containerName = containerNameInput.getText();
         containerName = containerName.toLowerCase();
+        containerName = containerName.replaceAll("\\s+","");
+
         request.setContainerName(containerName);
         try {
                 HttpsSendUpload sendIt = new HttpsSendUpload(request);
@@ -125,8 +126,11 @@ public class NewUploadFileGUI extends javax.swing.JFrame {
                 startOverGUI.setVisible(true);
             }
             catch (StorageException storageException) {
-                JOptionPane.showMessageDialog(this, "Please create a storage container without spaces.");
-
+                JOptionPane.showMessageDialog(this, "Wrong credentials supplied! \nReturning to login screen.");
+                this.setVisible(false);
+                RequestData newRequest = new RequestData();
+                LoginGUI newLoginGUI = new LoginGUI();
+                newLoginGUI.setVisible(true);
             }
             catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Wrong credentials supplied! \nReturning to login screen.");

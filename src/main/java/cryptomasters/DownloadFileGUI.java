@@ -6,7 +6,6 @@
 package cryptomasters;
 
 import static cryptomasters.DownloadFileGUIOld.request;
-import static cryptomasters.UploadFileGUI.request;
 import java.io.File;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
